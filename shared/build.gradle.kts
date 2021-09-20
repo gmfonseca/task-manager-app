@@ -1,5 +1,8 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
+val ktor_version: String by project
+val kotlinx_coroutines_version: String by project
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -19,7 +22,12 @@ kotlin {
         }
     }
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                api("io.ktor:ktor-client-core:$ktor_version")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version")
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
@@ -28,6 +36,8 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 api("com.google.android.material:material:1.2.1")
+                api("io.ktor:ktor-client-android:$ktor_version")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines_version")
             }
         }
         val androidTest by getting {
@@ -35,7 +45,11 @@ kotlin {
                 implementation("junit:junit:4.13")
             }
         }
-        val iosMain by getting
+        val iosMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-ios:$ktor_version")
+            }
+        }
         val iosTest by getting
     }
 }
