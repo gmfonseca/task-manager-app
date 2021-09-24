@@ -1,10 +1,12 @@
 package br.com.gmfonseca.taskmanager.shared.client
 
+import br.com.gmfonseca.taskmanager.shared.contract.Result
 import br.com.gmfonseca.taskmanager.shared.domain.Task
-import io.ktor.client.HttpClient
+import io.ktor.client.request.forms.formData
 import io.ktor.client.request.get
+import io.ktor.client.request.put
 import io.ktor.client.request.url
-import io.ktor.utils.io.core.use
+import io.ktor.http.content.PartData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -13,21 +15,21 @@ import kotlinx.coroutines.launch
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
-internal expect val ApplicationDispatcher: CoroutineDispatcher
+internal expect val applicationDispatcher: CoroutineDispatcher
 
 private val scope = CoroutineScope(Dispatchers.Default + Job())
+private const val SERVICE_URL = "http://192.168.10.167:8080"
 
-fun listTasks(callback: (Any) -> Unit) = scope.launch(ApplicationDispatcher) {
-    HttpClient().use { client ->
-        try {
-            val result: List<Task> = client.get {
-                url("http://192.168.10.167:8080/tasks")
-            }
-
-            callback(result)
-        } catch (t: Throwable) {
-            callback(t)
+fun listTasks(callback: (Result<List<Task>>) -> Unit) = scope.launch(applicationDispatcher) {
+    try {
+        val result: List<Task> = httpClient.get {
+            url("$SERVICE_URL/tasks")
         }
+
+        callback(Result.success(result))
+    } catch (t: Throwable) {
+        callback(Result.failure(t))
+        t.printStackTrace()
     }
 }
 

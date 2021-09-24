@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
+apply(plugin = "kotlinx-serialization")
+
 val ktor_version: String by project
 val kotlinx_coroutines_version: String by project
 
@@ -26,6 +28,7 @@ kotlin {
             dependencies {
                 api("io.ktor:ktor-client-core:$ktor_version")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version")
+                api("io.ktor:ktor-client-serialization:$ktor_version")
             }
         }
         val commonTest by getting {
@@ -36,8 +39,8 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 api("com.google.android.material:material:1.2.1")
-                api("io.ktor:ktor-client-android:$ktor_version")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines_version")
+                api("io.ktor:ktor-client-android:$ktor_version")
             }
         }
         val androidTest by getting {
@@ -68,7 +71,8 @@ val packForXcode by tasks.creating(Sync::class) {
     val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
     val sdkName = System.getenv("SDK_NAME") ?: "iphonesimulator"
     val targetName = "ios" + if (sdkName.startsWith("iphoneos")) "Arm64" else "X64"
-    val framework = kotlin.targets.getByName<KotlinNativeTarget>(targetName).binaries.getFramework(mode)
+    val framework =
+        kotlin.targets.getByName<KotlinNativeTarget>(targetName).binaries.getFramework(mode)
     inputs.property("mode", mode)
     dependsOn(framework.linkTask)
     val targetDir = File(buildDir, "xcode-frameworks")
