@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            handler.postDelayed(repeater, 10000)
+            handler.postDelayed(repeater, 10_000)
         }
     }
 }

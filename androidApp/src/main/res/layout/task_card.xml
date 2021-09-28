@@ -28,7 +28,7 @@
         app:layout_constraintEnd_toStartOf="@id/button_taskCard_complete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/button_taskCard_complete"
-        tools:text="this is the title" />
+        tools:text="This is the title" />
 
     <TextView
         android:id="@+id/textView_taskCard_description"
@@ -45,7 +45,7 @@
         app:layout_constraintEnd_toStartOf="@id/button_taskCard_complete"
         app:layout_constraintStart_toStartOf="@id/textView_taskCard_title"
         app:layout_constraintTop_toBottomOf="@id/textView_taskCard_title"
-        tools:text="this is a description" />
+        tools:text="This is a description" />
 
     <Button
         android:id="@+id/button_taskCard_complete"
