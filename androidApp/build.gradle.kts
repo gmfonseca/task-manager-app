@@ -17,8 +17,11 @@ dependencies {
     implementation("androidx.compose.ui:ui:$compose_version")
     implementation("androidx.compose.material:material:$compose_version")
     implementation("androidx.compose.ui:ui-tooling-preview:$compose_version")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.0-beta02")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
     implementation("androidx.activity:activity-compose:1.3.1")
+    implementation("androidx.compose.runtime:runtime-livedata:$compose_version")
+
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
     debugImplementation("androidx.compose.ui:ui-tooling:$compose_version")
 }
