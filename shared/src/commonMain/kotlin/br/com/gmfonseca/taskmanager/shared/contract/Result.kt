@@ -8,6 +8,9 @@ sealed class Result<T> {
     val isSuccess get() = this is Success
     val isFailure get() = this is Failure
 
+    @Throws(IllegalArgumentException::class)
+    fun get() = requireNotNull(getOrNull()) { "The result was null" }
+
     fun getOrNull() = if (this is Success) {
         data
     } else {
