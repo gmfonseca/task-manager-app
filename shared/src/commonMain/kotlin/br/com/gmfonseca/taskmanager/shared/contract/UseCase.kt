@@ -1,4 +1,4 @@
-package br.com.gmfonseca.taskmanager
+package br.com.gmfonseca.taskmanager.shared.contract
 
 interface UseCase<in Params : UseCase.Params, out Result> {
     operator fun invoke(param: Params): Result
