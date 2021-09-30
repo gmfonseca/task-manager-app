@@ -13,7 +13,7 @@ import kotlin.native.concurrent.SharedImmutable
 @SharedImmutable
 internal expect val applicationDispatcher: CoroutineDispatcher
 
-private val scope = CoroutineScope(Dispatchers.Default + Job())
+val scope get() = CoroutineScope(Dispatchers.Default + Job())
 private const val SERVICE_URL = "http://192.168.10.167:8080"
 
 suspend fun listTasks(): Result<List<Task>> = try {
