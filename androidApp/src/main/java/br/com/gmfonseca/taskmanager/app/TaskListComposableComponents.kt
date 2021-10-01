@@ -1,4 +1,4 @@
-package br.com.gmfonseca.taskmanager
+package br.com.gmfonseca.taskmanager.app
 
 import android.content.Context
 import androidx.compose.foundation.layout.Arrangement

@@ -1,9 +1,11 @@
-package br.com.gmfonseca.taskmanager
+package br.com.gmfonseca.taskmanager.app
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.gmfonseca.taskmanager.shared.contract.None
 import br.com.gmfonseca.taskmanager.shared.domain.Task
+import br.com.gmfonseca.taskmanager.shared.domain.usecases.FetchRemoteTasksRoutineUseCaseImpl
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
