@@ -12,8 +12,12 @@ import shared
 struct TasksListView: View {
     
     @ObservedObject var taskListViewModel: TaskListViewModel
+    
+    @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
+    @State private var isImagePickerDisplay = false
 
     var body: some View {
+
         GeometryReader { view in
             if let tasks = taskListViewModel.tasks, !tasks.isEmpty {
                 List(tasks, id: \.self.id) { task in
@@ -22,7 +26,13 @@ struct TasksListView: View {
                             title: task.title,
                             description: task.description_,
                             isCompleted: task.isCompleted
-                        )
+                        ),
+                        onClick: { taskCardView in
+                            if taskListViewModel.currentTaskId == nil {
+                                isImagePickerDisplay.toggle()
+                                taskListViewModel.currentTaskId = task.id
+                            }
+                        }
                     )
                 }
             } else {
@@ -35,6 +45,11 @@ struct TasksListView: View {
         }
         .onAppear { taskListViewModel.startTasksRoutine() }
         .onDisappear {  taskListViewModel.stopTasksRoutine() }
+        .sheet(isPresented: self.$isImagePickerDisplay) {
+            ImagePickerView(sourceType: self.sourceType) { selectedImage in
+                taskListViewModel.completeTask(image: selectedImage)
+            }
+        }
     }
 }
 
@@ -47,6 +62,7 @@ struct TasksList_Previews: PreviewProvider {
 class TaskListViewModel: ObservableObject {
     
     @Published var tasks: [Task]?
+    var currentTaskId: String? = nil
 
     private var routineFlow: Ktor_ioCloseable?
 
@@ -63,7 +79,7 @@ class TaskListViewModel: ObservableObject {
         }
     }
 
-    func fetchTasks() -> Closeable {
+    private func fetchTasks() -> Closeable {
         return FetchRemoteTasksRoutineUseCaseImpl().invoke()
             .watch { result in
                 if let tasks = result!.getOrNull() as? [Task] {
@@ -76,5 +92,16 @@ class TaskListViewModel: ObservableObject {
                     }
                 }
             }
+    }
+    
+    func completeTask(image: UIImage) {
+        guard let taskId = currentTaskId else { return }
+        guard let data = image.pngData() else { return }
+        let params = CompleteTasksRoutineUseCaseParams(id: taskId, fileBytes: ImageKt.toByteArray(data))
+
+        currentTaskId = nil
+
+        CompleteTasksRoutineUseCaseImpl().invoke(params: params).watch { _ in
+        }
     }
 }

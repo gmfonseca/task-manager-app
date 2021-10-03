@@ -17,6 +17,7 @@ struct TaskCardItem {
 
 struct TaskCardView: View {
     let item: TaskCardItem
+    let onClick: (TaskCardView) -> Void
 
     var body: some View {
         HStack {
@@ -27,7 +28,8 @@ struct TaskCardView: View {
 
             if(!item.isCompleted) {
                 Spacer()
-                Text("Finish").foregroundColor(.white)
+                Button("Finish", action: { onClick(self) })
+                .foregroundColor(.white)
             }
         }
         .padding(.vertical, 8)
@@ -40,7 +42,7 @@ struct TaskCardView: View {
 struct TaskCardView_Previews: PreviewProvider {
     static var previews: some View {
         TaskCardView(
-            item: TaskCardItem(title: "The title", description: "The description", isCompleted: false)
+            item: TaskCardItem(title: "The title", description: "The description", isCompleted: false), onClick: {_ in }
         )
     }
 }
