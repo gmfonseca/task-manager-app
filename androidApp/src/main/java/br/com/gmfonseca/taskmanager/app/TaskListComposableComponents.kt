@@ -28,17 +28,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import br.com.gmfonseca.taskmanager.shared.domain.Task
+import br.com.gmfonseca.taskmanager.shared.domain.model.Task
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
-fun TasksList(taskViewModel: TaskViewModel) {
+fun TasksList(taskViewModel: TaskViewModel, onClick: (Task) -> Unit) {
     val tasks by taskViewModel.tasksState.collectAsState()
 
     Scaffold {
         LazyColumn {
-            items(tasks, itemContent = { task -> TaskCard(task = task) })
+            items(tasks, itemContent = { task -> TaskCard(task = task, onClick = onClick) })
         }
     }
 }
@@ -46,11 +46,11 @@ fun TasksList(taskViewModel: TaskViewModel) {
 @Preview
 @Composable
 fun TasksListPreview() {
-    TasksList(TaskViewModelStub())
+    TasksList(TaskViewModelStub()) {}
 }
 
 @Composable
-fun TaskCard(task: Task) {
+fun TaskCard(task: Task, onClick: (Task) -> Unit) {
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -95,7 +95,7 @@ fun TaskCard(task: Task) {
             }
 
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { onClick(task) },
                 modifier = Modifier
                     .padding(end = 16.dp)
                     .wrapContentWidth()
@@ -120,7 +120,8 @@ fun TaskCardPreview() {
             id = "1",
             title = "This is a cool task title",
             description = "This is a cool task description",
-        )
+        ),
+        onClick = {}
     )
 }
 
@@ -141,6 +142,11 @@ private class TaskViewModelStub(
             ),
         )
     )
+    override var currentTask: Task?
+        get() = TODO("Not yet implemented")
+        set(_) {}
 
     override fun beginRoutine(context: Context) = TODO()
+    override fun completeTask(fileBytes: ByteArray, context: Context) =
+        TODO("Not yet implemented")
 }
