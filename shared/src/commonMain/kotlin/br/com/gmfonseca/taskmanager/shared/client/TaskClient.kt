@@ -5,6 +5,7 @@ import br.com.gmfonseca.taskmanager.shared.domain.model.Task
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import io.ktor.client.request.put
 import io.ktor.client.request.url
 import io.ktor.http.Headers
@@ -12,16 +13,12 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.utils.io.core.buildPacket
 import io.ktor.utils.io.core.writeFully
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlin.native.concurrent.SharedImmutable
-
-@SharedImmutable
-internal expect val applicationDispatcher: CoroutineDispatcher
 
 private const val SERVICE_URL = "http://192.168.10.167:8080"
 
 suspend fun listTasks(): Result<List<Task>> = try {
     val result: List<Task> = httpClient.get {
+        parameter("completed", false)
         url("$SERVICE_URL/tasks")
     }
 
