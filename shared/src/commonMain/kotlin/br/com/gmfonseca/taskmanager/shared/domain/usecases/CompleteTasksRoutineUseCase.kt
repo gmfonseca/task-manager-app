@@ -2,8 +2,9 @@ package br.com.gmfonseca.taskmanager.shared.domain.usecases
 
 import br.com.gmfonseca.taskmanager.shared.client.completeTask
 import br.com.gmfonseca.taskmanager.shared.contract.Result
+import br.com.gmfonseca.taskmanager.shared.utils.ext.WatchableFlow
+import br.com.gmfonseca.taskmanager.shared.utils.ext.watchableFlow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 interface CompleteTasksRoutineUseCase :
     UseCase<CompleteTasksRoutineUseCase.Params, Flow<Result<Boolean>>> {
@@ -13,7 +14,7 @@ interface CompleteTasksRoutineUseCase :
 
 class CompleteTasksRoutineUseCaseImpl : CompleteTasksRoutineUseCase {
 
-    override fun invoke(params: CompleteTasksRoutineUseCase.Params) = flow {
+    override fun invoke(params: CompleteTasksRoutineUseCase.Params): WatchableFlow<Result<Boolean>> = watchableFlow {
         val result = completeTask(params.id, params.fileBytes)
 
         emit(result)
