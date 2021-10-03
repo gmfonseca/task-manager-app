@@ -34,7 +34,7 @@ struct TasksListView: View {
             }
         }
         .onAppear { taskListViewModel.startTasksRoutine() }
-        .onDisappear { taskListViewModel.stopTasksRoutine() }
+        .onDisappear {  taskListViewModel.stopTasksRoutine() }
     }
 }
 
@@ -48,36 +48,33 @@ class TaskListViewModel: ObservableObject {
     
     @Published var tasks: [Task]?
 
-    private var timer: Timer?
+    private var routineFlow: Ktor_ioCloseable?
 
     func startTasksRoutine() {
-        timer = Timer.scheduledTimer(
-            timeInterval: 10,
-            target: self,
-            selector: #selector(TaskListViewModel.fetchTasks),
-            userInfo: nil,
-            repeats: true
-        )
+        if(routineFlow == nil) {
+            routineFlow = fetchTasks()
+        }
     }
 
     func stopTasksRoutine() {
-        if let timer = timer {
-            timer.invalidate()
-            self.timer = nil
+        if let flow = routineFlow {
+            flow.close()
+            self.routineFlow = nil
         }
     }
 
-    @objc func fetchTasks() {
-        TaskClientKt.listTasks { result in
-            if let tasks = result.getOrNull() as? [Task] {
-                self.tasks = tasks
-            } else {
-                if let e = result.exceptionOrNull() {
-                    print("Failed: \(e)")
+    func fetchTasks() -> Closeable {
+        return FetchRemoteTasksRoutineUseCaseImpl().invoke()
+            .watch { result in
+                if let tasks = result!.getOrNull() as? [Task] {
+                    self.tasks = tasks
                 } else {
-                    print("Unkown failure")
+                    if let e = result!.exceptionOrNull() {
+                        print("Failed: \(e)")
+                    } else {
+                        print("Unkown failure")
+                    }
                 }
             }
-        }
     }
 }
