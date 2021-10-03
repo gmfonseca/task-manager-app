@@ -1,24 +1,14 @@
 package br.com.gmfonseca.taskmanager.shared.utils.ext
 
-import br.com.gmfonseca.taskmanager.shared.client.applicationDispatcher
-import io.ktor.utils.io.core.Closeable
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
+import br.com.gmfonseca.taskmanager.shared.domain.Closeable
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.flow
 
-fun <T> Flow<T>.watch(action: suspend (T) -> Unit): Closeable {
-    val scope = CoroutineScope(applicationDispatcher + Job())
+val <T> Flow<T>.asWatchable: WatchableFlow<T> get() = WatchableFlow(this)
 
-    onEach { action(it) }.launchIn(scope)
+fun <T> Flow<T>.watch(action: (T) -> Unit): Closeable = asWatchable.watch(action)
 
-    return scope.buildCloseable()
-}
+fun <T> watchableFlow(block: suspend FlowCollector<T>.() -> Unit) =
+    flow(block).asWatchable
 
-fun CoroutineScope.buildCloseable() = object : Closeable {
-    override fun close() {
-        cancel()
-    }
-}

@@ -3,15 +3,15 @@ package br.com.gmfonseca.taskmanager.shared.domain.usecases
 import br.com.gmfonseca.taskmanager.shared.client.listTasks
 import br.com.gmfonseca.taskmanager.shared.contract.Result
 import br.com.gmfonseca.taskmanager.shared.domain.model.Task
+import br.com.gmfonseca.taskmanager.shared.utils.ext.WatchableFlow
+import br.com.gmfonseca.taskmanager.shared.utils.ext.watchableFlow
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
-interface FetchRemoteTasksRoutineUseCase : UseCase<None, Flow<Result<List<Task>>>>
+interface FetchRemoteTasksRoutineUseCase : UseCase<None, WatchableFlow<Result<List<Task>>>>
 
 class FetchRemoteTasksRoutineUseCaseImpl : FetchRemoteTasksRoutineUseCase {
 
-    override fun invoke(params: None) = flow {
+    override fun invoke(params: None): WatchableFlow<Result<List<Task>>> = watchableFlow {
         while (true) {
             val result = listTasks()
 

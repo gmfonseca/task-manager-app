@@ -13,9 +13,6 @@ import io.ktor.http.HttpMethod
 import io.ktor.utils.io.core.buildPacket
 import io.ktor.utils.io.core.writeFully
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlin.native.concurrent.SharedImmutable
 
 @SharedImmutable
