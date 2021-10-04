@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2D0FE68A270A209B005836A2 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0FE689270A209B005836A2 /* ImagePickerView.swift */; };
+		2D2C4AF9270A831E0063B964 /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2C4AF8270A831E0063B964 /* TaskListViewModel.swift */; };
 		2D7EB8312700B40800C58C5B /* TasksListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7EB8302700B40800C58C5B /* TasksListView.swift */; };
 		2D7EB8332700B93300C58C5B /* TaskCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D7EB8322700B93300C58C5B /* TaskCardView.swift */; };
 		7555FF7F242A565900829871 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF7E242A565900829871 /* AppDelegate.swift */; };
@@ -54,6 +55,7 @@
 
 /* Begin PBXFileReference section */
 		2D0FE689270A209B005836A2 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
+		2D2C4AF8270A831E0063B964 /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
 		2D7EB8302700B40800C58C5B /* TasksListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListView.swift; sourceTree = "<group>"; };
 		2D7EB8322700B93300C58C5B /* TaskCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCardView.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,30 +100,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2D0FE68B270A215C005836A2 /* Camera */ = {
+		2D2C4AF7270A83010063B964 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				2D0FE689270A209B005836A2 /* ImagePickerView.swift */,
+				2D2C4AF8270A831E0063B964 /* TaskListViewModel.swift */,
 			);
-			path = Camera;
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		2D7EB82F2700B3DB00C58C5B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2D0FE68B270A215C005836A2 /* Camera */,
-				2DAC8D65270212E4003BFD86 /* List Item */,
+				2DAC8D65270212E4003BFD86 /* Components */,
 				2D7EB8302700B40800C58C5B /* TasksListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		2DAC8D65270212E4003BFD86 /* List Item */ = {
+		2DAC8D65270212E4003BFD86 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				2D0FE689270A209B005836A2 /* ImagePickerView.swift */,
 				2D7EB8322700B93300C58C5B /* TaskCardView.swift */,
 			);
-			path = "List Item";
+			path = Components;
 			sourceTree = "<group>";
 		};
 		7555FF72242A565900829871 = {
@@ -148,6 +150,7 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				2D2C4AF7270A83010063B964 /* ViewModels */,
 				2D7EB82F2700B3DB00C58C5B /* Views */,
 				7555FF7E242A565900829871 /* AppDelegate.swift */,
 				7555FF80242A565900829871 /* SceneDelegate.swift */,
@@ -351,6 +354,7 @@
 				2D7EB8312700B40800C58C5B /* TasksListView.swift in Sources */,
 				7555FF81242A565900829871 /* SceneDelegate.swift in Sources */,
 				2D0FE68A270A209B005836A2 /* ImagePickerView.swift in Sources */,
+				2D2C4AF9270A831E0063B964 /* TaskListViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
