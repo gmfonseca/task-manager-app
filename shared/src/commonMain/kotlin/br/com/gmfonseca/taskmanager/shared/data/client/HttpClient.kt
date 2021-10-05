@@ -1,4 +1,4 @@
-package br.com.gmfonseca.taskmanager.shared.client
+package br.com.gmfonseca.taskmanager.shared.data.client
 
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature

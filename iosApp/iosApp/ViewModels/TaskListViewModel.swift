@@ -47,6 +47,6 @@ class TaskListViewModel: ObservableObject {
         guard let data = image.pngData() else { return }
         let params = CompleteTasksRoutineUseCaseParams(id: task.id, fileBytes: ImageParsersKt.toByteArray(data))
 
-        CompleteTasksRoutineUseCaseImpl().invoke(params: params).watch { result in }
+        CompleteTasksUseCaseImpl().invoke(params: params).watch { result in }
     }
 }

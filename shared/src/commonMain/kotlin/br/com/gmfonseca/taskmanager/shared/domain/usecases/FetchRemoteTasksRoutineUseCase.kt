@@ -1,8 +1,8 @@
 package br.com.gmfonseca.taskmanager.shared.domain.usecases
 
-import br.com.gmfonseca.taskmanager.shared.client.listTasks
-import br.com.gmfonseca.taskmanager.shared.contract.Result
-import br.com.gmfonseca.taskmanager.shared.domain.model.Task
+import br.com.gmfonseca.taskmanager.shared.data.client.listTasks
+import br.com.gmfonseca.taskmanager.shared.domain.models.Result
+import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 import br.com.gmfonseca.taskmanager.shared.utils.ext.WatchableFlow
 import br.com.gmfonseca.taskmanager.shared.utils.ext.watchableFlow
 import kotlinx.coroutines.delay

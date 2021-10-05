@@ -3,9 +3,9 @@ package br.com.gmfonseca.taskmanager.app
 import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
-import br.com.gmfonseca.taskmanager.shared.domain.model.Task
-import br.com.gmfonseca.taskmanager.shared.domain.usecases.CompleteTasksRoutineUseCase
-import br.com.gmfonseca.taskmanager.shared.domain.usecases.CompleteTasksRoutineUseCaseImpl
+import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
+import br.com.gmfonseca.taskmanager.shared.domain.usecases.CompleteTasksUseCase
+import br.com.gmfonseca.taskmanager.shared.domain.usecases.CompleteTasksUseCaseImpl
 import br.com.gmfonseca.taskmanager.shared.domain.usecases.FetchRemoteTasksRoutineUseCaseImpl
 import br.com.gmfonseca.taskmanager.shared.domain.usecases.None
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +23,7 @@ interface TaskViewModel {
 
 class TaskViewModelImpl private constructor() : ViewModel(), TaskViewModel {
     private val fetchRemoteTasksRoutine by lazy { FetchRemoteTasksRoutineUseCaseImpl() }
-    private val completeTasksRoutine by lazy { CompleteTasksRoutineUseCaseImpl() }
+    private val completeTasksRoutine by lazy { CompleteTasksUseCaseImpl() }
 
     private val _tasksState = MutableStateFlow<List<Task>>(emptyList())
     override val tasksState: StateFlow<List<Task>> get() = _tasksState
@@ -42,7 +42,7 @@ class TaskViewModelImpl private constructor() : ViewModel(), TaskViewModel {
 
     override fun completeTask(fileBytes: ByteArray, context: Context) {
         completeTasksRoutine(
-            CompleteTasksRoutineUseCase.Params("${currentTask?.id}", fileBytes)
+            CompleteTasksUseCase.Params("${currentTask?.id}", fileBytes)
         ).watch { Toast.makeText(context, "Complete task result: $it", Toast.LENGTH_LONG).show() }
     }
 

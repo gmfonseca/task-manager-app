@@ -1,4 +1,4 @@
-package br.com.gmfonseca.taskmanager.shared.domain.model
+package br.com.gmfonseca.taskmanager.shared.domain.entities
 
 import kotlinx.serialization.Serializable
 

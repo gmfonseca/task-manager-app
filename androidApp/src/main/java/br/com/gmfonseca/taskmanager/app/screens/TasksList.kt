@@ -10,7 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import br.com.gmfonseca.taskmanager.app.TaskViewModel
 import br.com.gmfonseca.taskmanager.app.components.tasklist.TaskCard
-import br.com.gmfonseca.taskmanager.shared.domain.model.Task
+import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

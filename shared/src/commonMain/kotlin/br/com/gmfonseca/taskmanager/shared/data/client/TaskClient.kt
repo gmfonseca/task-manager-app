@@ -1,7 +1,7 @@
-package br.com.gmfonseca.taskmanager.shared.client
+package br.com.gmfonseca.taskmanager.shared.data.client
 
-import br.com.gmfonseca.taskmanager.shared.contract.Result
-import br.com.gmfonseca.taskmanager.shared.domain.model.Task
+import br.com.gmfonseca.taskmanager.shared.domain.models.Result
+import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
 import io.ktor.client.request.get
@@ -28,7 +28,7 @@ suspend fun listTasks(): Result<List<Task>> = try {
     Result.failure(t)
 }
 
-suspend fun completeTask(id: String, bytes: ByteArray): Result<Boolean> = try {
+suspend fun finishTask(id: String, bytes: ByteArray): Result<Boolean> = try {
     httpClient.put<Task> {
         url("$SERVICE_URL/tasks/$id")
         method = HttpMethod.Put
