@@ -7,9 +7,9 @@ import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContract
 
-class StartCameraForResult : ActivityResultContract<Intent, Bitmap?>() {
+class StartCameraForResult : ActivityResultContract<Unit, Bitmap?>() {
 
-    override fun createIntent(context: Context, input: Intent?): Intent {
+    override fun createIntent(context: Context, input: Unit?): Intent {
         return Intent(MediaStore.ACTION_IMAGE_CAPTURE)
     }
 
