@@ -10,7 +10,9 @@ import java.io.ByteArrayOutputStream
 
 class TaskActivity : ComponentActivity() {
     private val taskViewModel by lazy { TaskViewModelImpl() }
-    private val startCameraForResult = StartCameraForResult()
+    private val startCameraForResult = registerForActivityResult(StartCameraForResult()) {
+        onPhotoResult(it ?: return@registerForActivityResult)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,9 +22,7 @@ class TaskActivity : ComponentActivity() {
                 taskViewModel,
                 onClick = {
                     taskViewModel.currentTask = it
-                    registerForActivityResult(startCameraForResult) { bitmap ->
-                        onPhotoResult(bitmap ?: return@registerForActivityResult)
-                    }
+                    startCameraForResult.launch(Unit)
                 }
             )
         }
