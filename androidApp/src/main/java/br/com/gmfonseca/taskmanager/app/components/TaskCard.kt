@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import br.com.gmfonseca.taskmanager.shared.domain.model.Task
+import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 
 @Composable
 fun TaskCard(task: Task, onClick: (Task) -> Unit) {

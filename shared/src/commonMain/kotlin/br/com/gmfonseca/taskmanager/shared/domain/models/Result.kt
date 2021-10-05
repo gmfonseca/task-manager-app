@@ -1,4 +1,4 @@
-package br.com.gmfonseca.taskmanager.shared.contract
+package br.com.gmfonseca.taskmanager.shared.domain.models
 
 sealed class Result<T> {
 
