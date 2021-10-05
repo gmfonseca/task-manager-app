@@ -1,10 +1,10 @@
 package br.com.gmfonseca.taskmanager.shared.domain.usecases
 
-import br.com.gmfonseca.taskmanager.shared.domain.models.Result
+import br.com.gmfonseca.taskmanager.shared.common.Result
+import br.com.gmfonseca.taskmanager.shared.common.ext.WatchableFlow
+import br.com.gmfonseca.taskmanager.shared.common.ext.watchableFlow
 import br.com.gmfonseca.taskmanager.shared.data.repositories.TaskRepositoryImpl
 import br.com.gmfonseca.taskmanager.shared.domain.repositories.TaskRepository
-import br.com.gmfonseca.taskmanager.shared.utils.ext.WatchableFlow
-import br.com.gmfonseca.taskmanager.shared.utils.ext.watchableFlow
 import kotlinx.coroutines.flow.Flow
 
 interface CompleteTasksUseCase :
@@ -18,7 +18,13 @@ class CompleteTasksUseCaseImpl : CompleteTasksUseCase {
 
     override fun invoke(params: CompleteTasksUseCase.Params): WatchableFlow<Result<Boolean>> =
         watchableFlow {
-            val result = taskRepository.completeTask(params.id, params.fileBytes)
+            val result = try {
+                val task = taskRepository.completeTask(params.id, params.fileBytes)
+
+                Result.success(task != null)
+            } catch (other: Throwable) {
+                Result.failure(other)
+            }
 
             emit(result)
         }

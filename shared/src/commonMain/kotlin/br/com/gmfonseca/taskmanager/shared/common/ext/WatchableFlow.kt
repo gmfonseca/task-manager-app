@@ -1,6 +1,6 @@
-package br.com.gmfonseca.taskmanager.shared.utils.ext
+package br.com.gmfonseca.taskmanager.shared.common.ext
 
-import br.com.gmfonseca.taskmanager.shared.domain.Closeable
+import br.com.gmfonseca.taskmanager.shared.common.Closeable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
