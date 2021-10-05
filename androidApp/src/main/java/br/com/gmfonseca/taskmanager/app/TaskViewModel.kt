@@ -8,7 +8,6 @@ import br.com.gmfonseca.taskmanager.shared.domain.usecases.CompleteTasksRoutineU
 import br.com.gmfonseca.taskmanager.shared.domain.usecases.CompleteTasksRoutineUseCaseImpl
 import br.com.gmfonseca.taskmanager.shared.domain.usecases.FetchRemoteTasksRoutineUseCaseImpl
 import br.com.gmfonseca.taskmanager.shared.domain.usecases.None
-import br.com.gmfonseca.taskmanager.shared.utils.ext.watch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

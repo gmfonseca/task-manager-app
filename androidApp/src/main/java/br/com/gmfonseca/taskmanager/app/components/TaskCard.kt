@@ -1,6 +1,5 @@
-package br.com.gmfonseca.taskmanager.app
+package br.com.gmfonseca.taskmanager.app.components.tasklist
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,16 +7,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,25 +23,6 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import br.com.gmfonseca.taskmanager.shared.domain.model.Task
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-
-@Composable
-fun TasksList(taskViewModel: TaskViewModel, onClick: (Task) -> Unit) {
-    val tasks by taskViewModel.tasksState.collectAsState()
-
-    Scaffold {
-        LazyColumn {
-            items(tasks, itemContent = { task -> TaskCard(task = task, onClick = onClick) })
-        }
-    }
-}
-
-@Preview
-@Composable
-fun TasksListPreview() {
-    TasksList(TaskViewModelStub()) {}
-}
 
 @Composable
 fun TaskCard(task: Task, onClick: (Task) -> Unit) {
@@ -112,7 +87,7 @@ fun TaskCard(task: Task, onClick: (Task) -> Unit) {
     }
 }
 
-//@Preview
+@Preview
 @Composable
 fun TaskCardPreview() {
     TaskCard(
@@ -123,30 +98,4 @@ fun TaskCardPreview() {
         ),
         onClick = {}
     )
-}
-
-private class TaskViewModelStub(
-    tasks: List<Task>? = null
-) : TaskViewModel {
-    override val tasksState: StateFlow<List<Task>> = MutableStateFlow(
-        value = tasks ?: listOf(
-            Task(
-                id = "1",
-                title = "First task title",
-                description = "First task description",
-            ),
-            Task(
-                id = "2",
-                title = "Second cool task title",
-                description = "Second cool task description too big that can't fill the window",
-            ),
-        )
-    )
-    override var currentTask: Task?
-        get() = TODO("Not yet implemented")
-        set(_) {}
-
-    override fun beginRoutine(context: Context) = TODO()
-    override fun completeTask(fileBytes: ByteArray, context: Context) =
-        TODO("Not yet implemented")
 }
