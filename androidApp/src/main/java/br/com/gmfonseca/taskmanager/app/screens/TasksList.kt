@@ -7,9 +7,10 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import br.com.gmfonseca.taskmanager.app.TaskViewModel
-import br.com.gmfonseca.taskmanager.app.components.tasklist.TaskCard
+import br.com.gmfonseca.taskmanager.app.components.TaskCard
 import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +19,7 @@ import kotlinx.coroutines.flow.StateFlow
 fun TasksList(taskViewModel: TaskViewModel, onClick: (Task) -> Unit) {
     val tasks by taskViewModel.tasksState.collectAsState()
 
-    Scaffold {
+    Scaffold(backgroundColor = Color(0xFFFFFFFF)) {
         LazyColumn {
             items(tasks, itemContent = { task -> TaskCard(task = task, onClick = onClick) })
         }

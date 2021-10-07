@@ -1,8 +1,9 @@
-package br.com.gmfonseca.taskmanager.app.components.tasklist
+package br.com.gmfonseca.taskmanager.app.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -30,8 +31,10 @@ fun TaskCard(task: Task, onClick: (Task) -> Unit) {
         modifier = Modifier
             .padding(8.dp)
             .wrapContentHeight()
-            .fillMaxWidth(),
-        backgroundColor = Color(red = 0f, green = 0f, blue = 0f, alpha = 0.27f)
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        backgroundColor = Color(0xFFBABEBF),
+        elevation = 4.dp
     ) {
         ConstraintLayout {
             val (container, button) = createRefs()
@@ -57,14 +60,14 @@ fun TaskCard(task: Task, onClick: (Task) -> Unit) {
                         fontSize = 20.sp,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        color = Color.DarkGray,
+                        color = Color(0xFF232323),
                     )
                     Text(
                         text = task.description,
                         fontSize = 12.sp,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        color = Color.DarkGray
+                        color = Color(0xFF232323)
                     )
                 }
             }
@@ -79,9 +82,12 @@ fun TaskCard(task: Task, onClick: (Task) -> Unit) {
                         top.linkTo(parent.top)
                         bottom.linkTo(parent.bottom)
                     },
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray)
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color(0x00ECB600)
+                ),
+                elevation = ButtonDefaults.elevation(defaultElevation = 0.dp, pressedElevation = 0.dp)
             ) {
-                Text(text = "COMPLETE", color = Color.DarkGray)
+                Text(text = "COMPLETE", color = Color(0xFF232323))
             }
         }
     }
