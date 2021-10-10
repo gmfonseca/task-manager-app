@@ -1,8 +1,8 @@
 package br.com.gmfonseca.taskmanager.app
 
 import android.content.Context
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 import br.com.gmfonseca.taskmanager.shared.domain.usecases.CompleteTasksUseCase
 import br.com.gmfonseca.taskmanager.shared.domain.usecases.CompleteTasksUseCaseImpl
@@ -10,6 +10,7 @@ import br.com.gmfonseca.taskmanager.shared.domain.usecases.FetchRemoteTasksRouti
 import br.com.gmfonseca.taskmanager.shared.domain.usecases.None
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 private lateinit var INSTANCE: TaskViewModel
 
@@ -43,7 +44,13 @@ class TaskViewModelImpl private constructor() : ViewModel(), TaskViewModel {
     override fun completeTask(fileBytes: ByteArray, context: Context) {
         completeTasksRoutine(
             CompleteTasksUseCase.Params("${currentTask?.id}", fileBytes)
-        ).watch { Toast.makeText(context, "Complete task result: $it", Toast.LENGTH_LONG).show() }
+        ).watch { result ->
+            if (result.isSuccess && result.get()) {
+                viewModelScope.launch {
+                    _tasksState.emit(_tasksState.value.filter { it != currentTask })
+                }
+            }
+        }
     }
 
     companion object {
