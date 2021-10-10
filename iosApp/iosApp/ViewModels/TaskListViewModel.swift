@@ -45,7 +45,7 @@ class TaskListViewModel: ObservableObject {
     
     func completeTask(task: Task, image: UIImage) {
         guard let data = image.pngData() else { return }
-        let params = CompleteTasksRoutineUseCaseParams(id: task.id, fileBytes: ImageParsersKt.toByteArray(data))
+        let params = CompleteTasksUseCaseParams(id: task.id, fileBytes: ImageParsersKt.toByteArray(data))
 
         CompleteTasksUseCaseImpl().invoke(params: params).watch { result in }
     }
