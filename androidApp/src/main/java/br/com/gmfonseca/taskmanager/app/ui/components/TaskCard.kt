@@ -1,4 +1,4 @@
-package br.com.gmfonseca.taskmanager.app.components
+package br.com.gmfonseca.taskmanager.app.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -1,4 +1,4 @@
-package br.com.gmfonseca.taskmanager.app.screens
+package br.com.gmfonseca.taskmanager.app.ui.screens
 
 import android.content.Context
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,8 +9,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import br.com.gmfonseca.taskmanager.app.TaskViewModel
-import br.com.gmfonseca.taskmanager.app.components.TaskCard
+import br.com.gmfonseca.taskmanager.app.ui.TaskViewModel
+import br.com.gmfonseca.taskmanager.app.ui.components.TaskCard
 import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -34,7 +34,7 @@ fun TasksListPreview() {
 
 private class TaskViewModelStub(
     tasks: List<Task>? = null
-) : TaskViewModel {
+) : TaskViewModel() {
     override val tasksState: StateFlow<List<Task>> = MutableStateFlow(
         value = tasks ?: listOf(
             Task(
@@ -50,12 +50,7 @@ private class TaskViewModelStub(
         )
     )
 
-    override var currentTask: Task?
-        get() = TODO("Not yet implemented")
-        set(_) {}
-
-    override fun beginRoutine(context: Context) = TODO("Not yet implemented")
-
-    override fun completeTask(fileBytes: ByteArray, context: Context) =
-        TODO("Not yet implemented")
+    override var currentTask: Task? = TODO()
+    override fun beginRoutine(context: Context) = TODO()
+    override fun completeTask(fileBytes: ByteArray, context: Context) = TODO()
 }

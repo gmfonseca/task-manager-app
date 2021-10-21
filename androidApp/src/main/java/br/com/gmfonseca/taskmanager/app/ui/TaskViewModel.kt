@@ -1,4 +1,4 @@
-package br.com.gmfonseca.taskmanager.app
+package br.com.gmfonseca.taskmanager.app.ui
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -12,17 +12,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-private lateinit var INSTANCE: TaskViewModel
+abstract class TaskViewModel : ViewModel() {
+    abstract val tasksState: StateFlow<List<Task>>
+    abstract var currentTask: Task?
 
-interface TaskViewModel {
-    val tasksState: StateFlow<List<Task>>
-    var currentTask: Task?
-
-    fun beginRoutine(context: Context)
-    fun completeTask(fileBytes: ByteArray, context: Context)
+    abstract fun beginRoutine(context: Context)
+    abstract fun completeTask(fileBytes: ByteArray, context: Context)
 }
 
-class TaskViewModelImpl private constructor() : ViewModel(), TaskViewModel {
+class TaskViewModelImpl : TaskViewModel() {
     private val fetchRemoteTasksRoutine by lazy { FetchRemoteTasksRoutineUseCaseImpl() }
     private val completeTasksRoutine by lazy { CompleteTasksUseCaseImpl() }
 
@@ -50,16 +48,6 @@ class TaskViewModelImpl private constructor() : ViewModel(), TaskViewModel {
                     _tasksState.emit(_tasksState.value.filter { it != currentTask })
                 }
             }
-        }
-    }
-
-    companion object {
-        operator fun invoke(): TaskViewModel {
-            if (!::INSTANCE.isInitialized) {
-                INSTANCE = TaskViewModelImpl()
-            }
-
-            return INSTANCE
         }
     }
 }
