@@ -1,15 +1,17 @@
-package br.com.gmfonseca.taskmanager.app
+package br.com.gmfonseca.taskmanager.app.ui
 
 import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import br.com.gmfonseca.taskmanager.app.contracts.StartCameraForResult
-import br.com.gmfonseca.taskmanager.app.screens.TasksList
+import br.com.gmfonseca.taskmanager.app.ui.screens.TasksList
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.ByteArrayOutputStream
 
 class TaskActivity : ComponentActivity() {
-    private val taskViewModel by lazy { TaskViewModelImpl() }
+    private val taskViewModel by viewModel<TaskViewModel>()
+
     private val startCameraForResult = registerForActivityResult(StartCameraForResult()) {
         onPhotoResult(it ?: return@registerForActivityResult)
     }

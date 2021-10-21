@@ -8,6 +8,7 @@ group = "br.com.gmfonseca"
 version = "1.0-SNAPSHOT"
 
 val compose_version: String by project
+val koin_version: String by project
 
 dependencies {
     implementation(project(":shared"))
@@ -21,6 +22,14 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
     implementation("androidx.activity:activity-compose:1.3.1")
     implementation("androidx.compose.runtime:runtime-livedata:$compose_version")
+    // Koin main features for Android (Scope,ViewModel ...)
+    implementation("io.insert-koin:koin-android:$koin_version")
+    // Koin Java Compatibility
+    implementation("io.insert-koin:koin-android-compat:$koin_version")
+    // Koin for Jetpack WorkManager
+    implementation("io.insert-koin:koin-androidx-workmanager:$koin_version")
+    // Koin for Jetpack Compose
+    implementation("io.insert-koin:koin-androidx-compose:$koin_version")
 
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
     debugImplementation("androidx.compose.ui:ui-tooling:$compose_version")
