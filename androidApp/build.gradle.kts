@@ -15,6 +15,7 @@ dependencies {
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.1")
+
     implementation("androidx.compose.ui:ui:$compose_version")
     implementation("androidx.compose.material:material:$compose_version")
     implementation("androidx.compose.ui:ui-tooling-preview:$compose_version")
@@ -22,13 +23,10 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
     implementation("androidx.activity:activity-compose:1.3.1")
     implementation("androidx.compose.runtime:runtime-livedata:$compose_version")
-    // Koin main features for Android (Scope,ViewModel ...)
+
     implementation("io.insert-koin:koin-android:$koin_version")
-    // Koin Java Compatibility
     implementation("io.insert-koin:koin-android-compat:$koin_version")
-    // Koin for Jetpack WorkManager
     implementation("io.insert-koin:koin-androidx-workmanager:$koin_version")
-    // Koin for Jetpack Compose
     implementation("io.insert-koin:koin-androidx-compose:$koin_version")
 
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
