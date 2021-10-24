@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
-import br.com.gmfonseca.taskmanager.shared.domain.usecases.CompleteTasksUseCase
-import br.com.gmfonseca.taskmanager.shared.domain.usecases.CompleteTasksUseCaseImpl
+import br.com.gmfonseca.taskmanager.shared.domain.usecases.CompleteTaskUseCase
+import br.com.gmfonseca.taskmanager.shared.domain.usecases.CompleteTaskUseCaseImpl
 import br.com.gmfonseca.taskmanager.shared.domain.usecases.FetchRemoteTasksRoutineUseCaseImpl
 import br.com.gmfonseca.taskmanager.shared.domain.usecases.None
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +22,7 @@ abstract class TaskViewModel : ViewModel() {
 
 class TaskViewModelImpl : TaskViewModel() {
     private val fetchRemoteTasksRoutine by lazy { FetchRemoteTasksRoutineUseCaseImpl() }
-    private val completeTasksRoutine by lazy { CompleteTasksUseCaseImpl() }
+    private val completeTasksRoutine by lazy { CompleteTaskUseCaseImpl() }
 
     private val _tasksState = MutableStateFlow<List<Task>>(emptyList())
     override val tasksState: StateFlow<List<Task>> get() = _tasksState
@@ -41,7 +41,7 @@ class TaskViewModelImpl : TaskViewModel() {
 
     override fun completeTask(fileBytes: ByteArray, context: Context) {
         completeTasksRoutine(
-            CompleteTasksUseCase.Params("${currentTask?.id}", fileBytes)
+            CompleteTaskUseCase.Params("${currentTask?.id}", fileBytes)
         ).watch { result ->
             if (result.isSuccess && result.get()) {
                 viewModelScope.launch {
