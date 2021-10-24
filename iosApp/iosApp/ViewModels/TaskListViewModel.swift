@@ -47,6 +47,19 @@ class TaskListViewModel: ObservableObject {
         guard let data = image.pngData() else { return }
         let params = CompleteTasksUseCaseParams(id: task.id, fileBytes: ImageParsersKt.toByteArray(data))
 
-        CompleteTasksUseCaseImpl().invoke(params: params).watch { result in }
+        CompleteTaskUseCaseImpl().invoke(params: params)
+            .watch { result in
+                if let task = result!.getOrNull() as? Task {
+                    self.tasks = self.tasks.filter { it in
+                        it.id != task?.id
+                    }
+                } else {
+                    if let e = result!.exceptionOrNull() {
+                        print("Failed: \(e)")
+                    } else {
+                        print("Unkown failure")
+                    }
+                }
+            }
     }
 }
