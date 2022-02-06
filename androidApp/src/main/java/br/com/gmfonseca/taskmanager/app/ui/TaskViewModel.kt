@@ -3,6 +3,7 @@ package br.com.gmfonseca.taskmanager.app.ui
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.gmfonseca.taskmanager.app.ui.screens.tasklist.model.FilterOption
 import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 import br.com.gmfonseca.taskmanager.shared.domain.usecases.CompleteTaskUseCase
 import br.com.gmfonseca.taskmanager.shared.domain.usecases.CompleteTaskUseCaseImpl
@@ -13,19 +14,20 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 abstract class TaskViewModel : ViewModel() {
-    abstract val tasksState: StateFlow<List<Task>>
+    abstract val uiState: StateFlow<TasksUiState>
     abstract var currentTask: Task?
 
     abstract fun beginRoutine(context: Context)
     abstract fun completeTask(fileBytes: ByteArray, context: Context)
+    abstract fun changeFilter(newOption: FilterOption)
 }
 
 class TaskViewModelImpl : TaskViewModel() {
     private val fetchRemoteTasksRoutine by lazy { FetchRemoteTasksRoutineUseCaseImpl() }
     private val completeTasksRoutine by lazy { CompleteTaskUseCaseImpl() }
 
-    private val _tasksState = MutableStateFlow<List<Task>>(emptyList())
-    override val tasksState: StateFlow<List<Task>> get() = _tasksState
+    private val _uiState = MutableStateFlow(TasksUiState())
+    override val uiState: StateFlow<TasksUiState> get() = _uiState
 
     override var currentTask: Task? = null
 
@@ -35,7 +37,9 @@ class TaskViewModelImpl : TaskViewModel() {
         if (!hasActiveRoutine) {
             hasActiveRoutine = true
 
-            fetchRemoteTasksRoutine(None).watch { _tasksState.value = it.get() }
+            fetchRemoteTasksRoutine(None).watch {
+                _uiState.value = uiState.value.copy(tasks = it.get())
+            }
         }
     }
 
@@ -45,9 +49,20 @@ class TaskViewModelImpl : TaskViewModel() {
         ).watch { result ->
             if (result.isSuccess && result.get()) {
                 viewModelScope.launch {
-                    _tasksState.emit(_tasksState.value.filter { it != currentTask })
+                    _uiState.emit(_uiState.value.run { copy(tasks = tasks.filter { it != currentTask }) })
                 }
             }
         }
     }
+
+    override fun changeFilter(newOption: FilterOption) {
+        if (uiState.value.selectedFilterOption != newOption) {
+            _uiState.value = uiState.value.copy(selectedFilterOption = newOption)
+        }
+    }
 }
+
+data class TasksUiState(
+    val tasks: List<Task> = emptyList(),
+    val selectedFilterOption: FilterOption = FilterOption.ALL
+)

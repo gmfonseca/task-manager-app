@@ -15,7 +15,7 @@ import io.ktor.utils.io.core.buildPacket
 import io.ktor.utils.io.core.writeFully
 
 suspend fun listTasks(): List<TaskDto> = httpClient.get {
-    parameter("completed", false)
+    parameter("completed", null)
     url("$SERVICE_URL/tasks")
 }
 

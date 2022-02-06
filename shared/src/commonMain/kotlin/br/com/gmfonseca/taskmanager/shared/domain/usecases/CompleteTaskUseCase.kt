@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface CompleteTaskUseCase :
     UseCase<CompleteTaskUseCase.Params, Flow<Result<Boolean>>> {
 
-    data class Params(val id: String, val fileBytes: ByteArray) : UseCase.Params()
+    data class Params(val id: String, val fileBytes: ByteArray) : UseCase.Params
 }
 
 class CompleteTaskUseCaseImpl : CompleteTaskUseCase {

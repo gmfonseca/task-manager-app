@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import br.com.gmfonseca.taskmanager.app.contracts.StartCameraForResult
-import br.com.gmfonseca.taskmanager.app.ui.screens.TasksList
+import br.com.gmfonseca.taskmanager.app.ui.screens.tasklist.TasksListScreen
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.ByteArrayOutputStream
 
@@ -20,7 +20,7 @@ class TaskActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            TasksList(
+            TasksListScreen(
                 taskViewModel,
                 onClick = {
                     taskViewModel.currentTask = it
