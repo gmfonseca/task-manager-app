@@ -29,6 +29,8 @@ class TaskViewModelImpl : TaskViewModel() {
     private val _uiState = MutableStateFlow(TasksUiState())
     override val uiState: StateFlow<TasksUiState> get() = _uiState
 
+    private var allTasks: List<Task> = emptyList()
+
     override var currentTask: Task? = null
 
     private var hasActiveRoutine = false
@@ -38,7 +40,8 @@ class TaskViewModelImpl : TaskViewModel() {
             hasActiveRoutine = true
 
             fetchRemoteTasksRoutine(None).watch {
-                _uiState.value = uiState.value.copy(tasks = it.get())
+                allTasks = it.get()
+                _uiState.value = uiState.value.copy(tasks = filteredTasksByState())
             }
         }
     }
@@ -57,8 +60,25 @@ class TaskViewModelImpl : TaskViewModel() {
 
     override fun changeFilter(newOption: FilterOption) {
         if (uiState.value.selectedFilterOption != newOption) {
-            _uiState.value = uiState.value.copy(selectedFilterOption = newOption)
+            _uiState.value = uiState.value.copy(
+                selectedFilterOption = newOption,
+                tasks = filteredTasksBy(newOption)
+            )
         }
+    }
+
+    private fun filteredTasksByState() = filteredTasksBy(uiState.value.selectedFilterOption)
+
+    private fun filteredTasksBy(option: FilterOption): List<Task> {
+        val isCompleted = when (option) {
+            FilterOption.DONE -> true
+            FilterOption.PENDING -> false
+            FilterOption.ALL -> null
+        }
+
+        return isCompleted
+            ?.let { allTasks.filter { task -> task.isCompleted == it } }
+            ?: allTasks
     }
 }
 
