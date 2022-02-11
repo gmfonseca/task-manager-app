@@ -15,11 +15,12 @@ import kotlinx.coroutines.launch
 
 abstract class TaskViewModel : ViewModel() {
     abstract val uiState: StateFlow<TasksUiState>
-    abstract var currentTask: Task?
+    abstract var completingTask: Task?
 
     abstract fun beginRoutine(context: Context)
     abstract fun completeTask(fileBytes: ByteArray, context: Context)
     abstract fun changeFilter(newOption: FilterOption)
+    abstract fun selectTask(task: Task?)
 }
 
 class TaskViewModelImpl : TaskViewModel() {
@@ -29,9 +30,9 @@ class TaskViewModelImpl : TaskViewModel() {
     private val _uiState = MutableStateFlow(TasksUiState())
     override val uiState: StateFlow<TasksUiState> get() = _uiState
 
-    private var allTasks: List<Task> = emptyList()
+    private var _allTasks = mutableListOf<Task>()
 
-    override var currentTask: Task? = null
+    override var completingTask: Task? = null
 
     private var hasActiveRoutine = false
 
@@ -39,20 +40,25 @@ class TaskViewModelImpl : TaskViewModel() {
         if (!hasActiveRoutine) {
             hasActiveRoutine = true
 
-            fetchRemoteTasksRoutine(None).watch {
-                allTasks = it.get()
+            fetchRemoteTasksRoutine(None).watch { result ->
+                result.getOrNull()?.let {
+                    _allTasks = it.sortedBy(Task::isCompleted).toMutableList()
+                }
                 _uiState.value = uiState.value.copy(tasks = filteredTasksByState())
             }
         }
     }
 
     override fun completeTask(fileBytes: ByteArray, context: Context) {
+        val taskId = completingTask?.id ?: return
+
         completeTasksRoutine(
-            CompleteTaskUseCase.Params("${currentTask?.id}", fileBytes)
+            CompleteTaskUseCase.Params(taskId, fileBytes)
         ).watch { result ->
             if (result.isSuccess && result.get()) {
                 viewModelScope.launch {
-                    _uiState.emit(_uiState.value.run { copy(tasks = tasks.filter { it != currentTask }) })
+                    _allTasks.removeIf { it.id == taskId }
+                    _uiState.emit(uiState.value.copy(tasks = filteredTasksByState()))
                 }
             }
         }
@@ -67,6 +73,12 @@ class TaskViewModelImpl : TaskViewModel() {
         }
     }
 
+    override fun selectTask(task: Task?) {
+        _uiState.value = uiState.value.copy(
+            currentTask = task
+        )
+    }
+
     private fun filteredTasksByState() = filteredTasksBy(uiState.value.selectedFilterOption)
 
     private fun filteredTasksBy(option: FilterOption): List<Task> {
@@ -76,13 +88,16 @@ class TaskViewModelImpl : TaskViewModel() {
             FilterOption.ALL -> null
         }
 
-        return isCompleted
-            ?.let { allTasks.filter { task -> task.isCompleted == it } }
-            ?: allTasks
+        return if (isCompleted != null) {
+            _allTasks.filter { it.isCompleted == isCompleted }
+        } else {
+            _allTasks
+        }
     }
 }
 
 data class TasksUiState(
     val tasks: List<Task> = emptyList(),
-    val selectedFilterOption: FilterOption = FilterOption.ALL
+    val selectedFilterOption: FilterOption = FilterOption.ALL,
+    val currentTask: Task? = null
 )

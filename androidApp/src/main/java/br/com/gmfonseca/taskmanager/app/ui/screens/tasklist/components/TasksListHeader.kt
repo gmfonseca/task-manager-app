@@ -27,9 +27,9 @@ fun TasksListHeader(
     ) {
         Text(
             text = title,
-            modifier = Modifier.padding(bottom = 24.dp, start = 16.dp, end = 16.dp),
+            modifier = Modifier.padding(bottom = 20.dp, start = 16.dp, end = 16.dp),
             fontWeight = FontWeight.Bold,
-            fontSize = 32.sp
+            fontSize = 32.sp,
         )
         TasksListFilter(
             selectedOption = selectedFilterOption,

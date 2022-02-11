@@ -2,6 +2,7 @@ package br.com.gmfonseca.taskmanager.app.ui
 
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import br.com.gmfonseca.taskmanager.app.contracts.StartCameraForResult
@@ -22,9 +23,14 @@ class TaskActivity : ComponentActivity() {
         setContent {
             TasksListScreen(
                 taskViewModel,
-                onClick = {
-                    taskViewModel.currentTask = it
-                    startCameraForResult.launch(Unit)
+                onTaskCard = {
+                    if (it.isCompleted) {
+                        Toast.makeText(applicationContext, "Available soon!", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        taskViewModel.completingTask = it
+                        startCameraForResult.launch(Unit)
+                    }
                 }
             )
         }

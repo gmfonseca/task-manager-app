@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 object Color {
     val White get() = Color.White
+     val Transparent get() = Color.Transparent
 
     val Gray1 = Color(0xFFECF1F2)
     val Gray2 = Color(0xFFBABEBF)
