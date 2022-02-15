@@ -10,6 +10,7 @@ import br.com.gmfonseca.taskmanager.app.core.design.Color
 import br.com.gmfonseca.taskmanager.app.ui.TaskViewModel
 import br.com.gmfonseca.taskmanager.app.ui.TasksUiState
 import br.com.gmfonseca.taskmanager.app.ui.screens.tasklist.components.TasksListHeader
+import br.com.gmfonseca.taskmanager.app.ui.screens.tasklist.components.fab.CreateTaskFloatActionButton
 import br.com.gmfonseca.taskmanager.app.ui.screens.tasklist.components.taskdialog.TaskDetailsDialog
 import br.com.gmfonseca.taskmanager.app.ui.screens.tasklist.components.taskslist.TasksList
 import br.com.gmfonseca.taskmanager.app.ui.screens.tasklist.model.FilterOption
@@ -30,6 +31,12 @@ fun TasksListScreen(taskViewModel: TaskViewModel, onTaskCardClick: (Task) -> Uni
                 onFilterChanged = taskViewModel::changeFilter,
             )
         },
+        floatingActionButton = {
+            CreateTaskFloatActionButton(
+                { /* TODO */ },
+                uiState.tasks.isNotEmpty()
+            )
+        }
     ) {
         TasksList(
             uiState.tasks,
