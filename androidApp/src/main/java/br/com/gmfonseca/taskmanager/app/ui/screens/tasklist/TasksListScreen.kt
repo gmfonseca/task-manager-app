@@ -1,28 +1,24 @@
 package br.com.gmfonseca.taskmanager.app.ui.screens.tasklist
 
 import android.content.Context
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import br.com.gmfonseca.taskmanager.app.core.design.Color
 import br.com.gmfonseca.taskmanager.app.ui.TaskViewModel
 import br.com.gmfonseca.taskmanager.app.ui.TasksUiState
 import br.com.gmfonseca.taskmanager.app.ui.screens.tasklist.components.TasksListHeader
-import br.com.gmfonseca.taskmanager.app.ui.screens.tasklist.components.taskcard.TaskCard
 import br.com.gmfonseca.taskmanager.app.ui.screens.tasklist.components.taskdialog.TaskDetailsDialog
+import br.com.gmfonseca.taskmanager.app.ui.screens.tasklist.components.taskslist.TasksList
 import br.com.gmfonseca.taskmanager.app.ui.screens.tasklist.model.FilterOption
 import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
-fun TasksListScreen(taskViewModel: TaskViewModel, onTaskCard: (Task) -> Unit) {
+fun TasksListScreen(taskViewModel: TaskViewModel, onTaskCardClick: (Task) -> Unit) {
     val uiState by taskViewModel.uiState.collectAsState()
 
     Scaffold(
@@ -35,22 +31,12 @@ fun TasksListScreen(taskViewModel: TaskViewModel, onTaskCard: (Task) -> Unit) {
             )
         },
     ) {
-        LazyColumn(contentPadding = PaddingValues(horizontal = 8.dp)) {
-            items(
-                key = Task::id,
-                items = uiState.tasks,
-                itemContent = { task ->
-                    TaskCard(
-                        task = task,
-                        onClick = onTaskCard,
-                        onInfoClick = {
-                            taskViewModel.selectTask(task)
-                        },
-                        enabled = true
-                    )
-                }
-            )
-        }
+        TasksList(
+            uiState.tasks,
+            uiState.selectedFilterOption,
+            onTaskCardClick = onTaskCardClick,
+            onInfoClick = taskViewModel::selectTask
+        )
 
         uiState.currentTask?.let {
             TaskDetailsDialog(it, onDismiss = { taskViewModel.selectTask(null) })

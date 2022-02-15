@@ -23,7 +23,7 @@ class TaskActivity : ComponentActivity() {
         setContent {
             TasksListScreen(
                 taskViewModel,
-                onTaskCard = {
+                onTaskCardClick = {
                     if (it.isCompleted) {
                         Toast.makeText(applicationContext, "Available soon!", Toast.LENGTH_SHORT)
                             .show()
