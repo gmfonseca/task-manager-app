@@ -5,7 +5,11 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import br.com.gmfonseca.taskmanager.app.contracts.StartCameraForResult
+import br.com.gmfonseca.taskmanager.app.ui.screens.taskdetails.TaskDetailsScreen
 import br.com.gmfonseca.taskmanager.app.ui.screens.tasklist.TasksListScreen
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.ByteArrayOutputStream
@@ -21,18 +25,31 @@ class TaskActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            TasksListScreen(
-                taskViewModel,
-                onTaskCardClick = {
-                    if (it.isCompleted) {
-                        Toast.makeText(applicationContext, "Available soon!", Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        taskViewModel.completingTask = it
-                        startCameraForResult.launch(Unit)
-                    }
+            val navController = rememberNavController()
+
+            NavHost(navController = navController, startDestination = "tasklist") {
+                composable("tasklist") {
+                    TasksListScreen(
+                        taskViewModel,
+                        onTaskCardClick = {
+                            if (it.isCompleted) {
+                                navController.navigate("taskdetails")
+                                taskViewModel.selectTask(it)
+                            } else {
+                                taskViewModel.completingTask = it
+                                startCameraForResult.launch(Unit)
+                            }
+                        }
+                    )
                 }
-            )
+
+                composable("taskdetails") {
+                    TaskDetailsScreen(
+                        taskViewModel = taskViewModel,
+                        onBackPress = navController::popBackStack
+                    )
+                }
+            }
         }
 
         taskViewModel.beginRoutine(applicationContext)

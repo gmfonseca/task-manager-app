@@ -20,7 +20,7 @@ abstract class TaskViewModel : ViewModel() {
     abstract fun beginRoutine(context: Context)
     abstract fun completeTask(fileBytes: ByteArray, context: Context)
     abstract fun changeFilter(newOption: FilterOption)
-    abstract fun selectTask(task: Task?)
+    abstract fun selectTask(task: Task?, showDialog: Boolean = false)
 }
 
 class TaskViewModelImpl : TaskViewModel() {
@@ -73,10 +73,13 @@ class TaskViewModelImpl : TaskViewModel() {
         }
     }
 
-    override fun selectTask(task: Task?) {
-        _uiState.value = uiState.value.copy(
-            currentTask = task
-        )
+    override fun selectTask(task: Task?, showDialog: Boolean) {
+        val curState = uiState.value
+        if (curState.currentTask != task || curState.isInfoDialogShown != showDialog) {
+            _uiState.value = uiState.value.copy(
+                currentTask = task, isInfoDialogShown = task != null && showDialog
+            )
+        }
     }
 
     private fun filteredTasksByState() = filteredTasksBy(uiState.value.selectedFilterOption)
@@ -96,8 +99,39 @@ class TaskViewModelImpl : TaskViewModel() {
     }
 }
 
+class TaskViewModelStub(
+    tasks: List<Task>? = null,
+    currentTask: Task? = null,
+) : TaskViewModel() {
+    override val uiState: StateFlow<TasksUiState> = MutableStateFlow(
+        TasksUiState(
+            tasks = tasks ?: listOf(
+                Task(
+                    id = "1",
+                    title = "First task title",
+                    description = "First task description",
+                ),
+                Task(
+                    id = "2",
+                    title = "Second cool task title",
+                    description = "This is the task description that can reach at most 2 lines and may be filling well when a long description is suppo",
+                    isCompleted = true
+                ),
+            ),
+            currentTask = currentTask
+        )
+    )
+
+    override var completingTask: Task? = null
+    override fun beginRoutine(context: Context) = Unit
+    override fun completeTask(fileBytes: ByteArray, context: Context) = Unit
+    override fun changeFilter(newOption: FilterOption) = Unit
+    override fun selectTask(task: Task?, showDialog: Boolean) = Unit
+}
+
 data class TasksUiState(
     val tasks: List<Task> = emptyList(),
     val selectedFilterOption: FilterOption = FilterOption.ALL,
-    val currentTask: Task? = null
+    val currentTask: Task? = null,
+    val isInfoDialogShown: Boolean = false,
 )
