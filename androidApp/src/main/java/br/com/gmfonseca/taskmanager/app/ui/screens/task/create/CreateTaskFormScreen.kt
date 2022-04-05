@@ -5,26 +5,35 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.gmfonseca.taskmanager.app.core.design.Color
+import br.com.gmfonseca.taskmanager.app.ui.TaskViewModel
+import br.com.gmfonseca.taskmanager.app.ui.TaskViewModelStub
 import br.com.gmfonseca.taskmanager.app.ui.components.ConfirmButton
 import br.com.gmfonseca.taskmanager.app.ui.components.input.LabeledTextField
 import br.com.gmfonseca.taskmanager.app.ui.screens.task.create.components.CreateTaskFormHeader
 
 @Composable
-fun CreateTaskFormScreen(onBackPress: () -> Unit) {
-    val (title, setTitle) = remember { mutableStateOf("") }
-    val (description, setDescription) = remember { mutableStateOf("") }
+fun CreateTaskFormScreen(
+    taskViewModel: TaskViewModel,
+    onBackPress: () -> Unit,
+    onCreatePress: () -> Unit,
+) {
+    val formState by taskViewModel.formState.collectAsState()
 
     Scaffold(
         backgroundColor = Color.Gray1,
         topBar = { CreateTaskFormHeader(onBackPress) },
         bottomBar = {
-            ConfirmButton(onClick = {}, text = "CREATE TASK")
+            ConfirmButton(
+                onClick = onCreatePress,
+                text = "CREATE TASK",
+                enabled = formState.isCompleted
+            )
         }
     ) {
         Column(
@@ -34,16 +43,18 @@ fun CreateTaskFormScreen(onBackPress: () -> Unit) {
         ) {
             LabeledTextField(
                 label = "TITLE",
-                value = title,
-                onValueChange = setTitle,
+                value = formState.title,
+                onValueChange = { taskViewModel.updateForm(title = it) },
                 modifier = Modifier.padding(top = 4.dp, bottom = 16.dp),
+                isRequired = true,
             )
 
             LabeledTextField(
                 label = "DESCRIPTION",
-                value = description,
-                onValueChange = setDescription,
+                value = formState.description,
+                onValueChange = { taskViewModel.updateForm(description = it) },
                 modifier = Modifier.padding(top = 4.dp),
+                isRequired = true,
             )
         }
     }
@@ -52,5 +63,5 @@ fun CreateTaskFormScreen(onBackPress: () -> Unit) {
 @Preview
 @Composable
 private fun CreateTaskFormScreenPreview() {
-    CreateTaskFormScreen({})
+    CreateTaskFormScreen(TaskViewModelStub(), {}, {})
 }

@@ -15,4 +15,7 @@ class TaskRepositoryImpl(
 
     override suspend fun completeTask(id: String, imageBytes: ByteArray): Task? =
         taskRemoteDataSource.completeTask(id, imageBytes)?.asDomain
+
+    override suspend fun createTask(title: String, description: String): Task? =
+        taskRemoteDataSource.createTask(TaskDto(title = title, description = description))?.asDomain
 }

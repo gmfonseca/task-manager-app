@@ -7,6 +7,8 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,28 +21,32 @@ fun LabeledTextField(
     label: String,
     value: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isRequired: Boolean = false
 ) {
-    Text(text = label, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+    val (isError, setIsError) = remember { mutableStateOf(false) }
 
-    OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
-        modifier = Modifier
-            .fillMaxWidth()
-            .then(modifier),
-        shape = RoundedCornerShape(8.dp),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Color.Yellow2,
-            cursorColor = Color.Yellow2,
-        )
-    )
+    Column(modifier) {
+        Text(text = label, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+
+        OutlinedTextField(
+            value = value,
+            isError = isError,
+            onValueChange = { onValueChange(it); if (isRequired) setIsError(it.isBlank()) },
+            modifier = Modifier
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(8.dp),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Yellow2,
+                cursorColor = Color.Yellow2,
+            ),
+
+            )
+    }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun LabeledTextFieldPreview() {
-    Column {
-        LabeledTextField("label", "value", {})
-    }
+    LabeledTextField("label", "value", {})
 }

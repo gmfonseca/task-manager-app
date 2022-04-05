@@ -1,10 +1,13 @@
 package br.com.gmfonseca.taskmanager.app.ui.screens.task.list
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import br.com.gmfonseca.taskmanager.app.core.design.Color
 import br.com.gmfonseca.taskmanager.app.ui.TaskViewModel
 import br.com.gmfonseca.taskmanager.app.ui.TaskViewModelStub
@@ -25,6 +28,7 @@ fun TasksListScreen(taskViewModel: TaskViewModel, onTaskCardClick: (Task) -> Uni
                 title = "Tasks",
                 selectedFilterOption = uiState.selectedFilterOption,
                 onFilterChanged = taskViewModel::changeFilter,
+                Modifier.padding(top = 16.dp)
             )
         },
         floatingActionButton = {

@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import br.com.gmfonseca.taskmanager.app.core.design.Color
 
 @Composable
-fun ConfirmButton(onClick: () -> Unit, text: String) {
+fun ConfirmButton(onClick: () -> Unit, text: String, enabled: Boolean = true) {
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(8.dp),
@@ -22,6 +22,7 @@ fun ConfirmButton(onClick: () -> Unit, text: String) {
             backgroundColor = Color.Yellow2,
             disabledBackgroundColor = Color.Yellow2,
         ),
+        enabled = enabled,
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth()

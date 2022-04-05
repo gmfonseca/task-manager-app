@@ -3,12 +3,14 @@ package br.com.gmfonseca.taskmanager.app.ui
 import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.com.gmfonseca.taskmanager.app.contracts.StartCameraForResult
 import br.com.gmfonseca.taskmanager.app.ui.screens.task.create.CreateTaskFormScreen
+import br.com.gmfonseca.taskmanager.app.ui.screens.task.create.CreatingTaskScreen
 import br.com.gmfonseca.taskmanager.app.ui.screens.task.details.TaskDetailsScreen
 import br.com.gmfonseca.taskmanager.app.ui.screens.task.list.TasksListScreen
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -55,8 +57,26 @@ class TaskActivity : ComponentActivity() {
 
                 composable(NAV_CREATE_TASK) {
                     CreateTaskFormScreen(
-                        onBackPress = navController::popBackStack
+                        taskViewModel,
+                        onBackPress = navController::popBackStack,
+                        onCreatePress = {
+                            navController.navigate(NAV_CREATING_TASK)
+                            taskViewModel.createTask(
+                                onError = navController::popBackStack,
+                                onSuccess = {
+                                    taskViewModel.clearFormState()
+                                    navController.navigate(NAV_TASKS_LIST) {
+                                        popUpTo(0)
+                                    }
+                                }
+                            )
+                        }
                     )
+                }
+
+                composable(NAV_CREATING_TASK) {
+                    BackHandler(false) {}
+                    CreatingTaskScreen()
                 }
             }
         }
@@ -78,5 +98,6 @@ class TaskActivity : ComponentActivity() {
         const val NAV_TASKS_LIST = "tasklist"
         const val NAV_TASK_DETAILS = "taskdetails"
         const val NAV_CREATE_TASK = "createtask"
+        const val NAV_CREATING_TASK = "creatingtask"
     }
 }
