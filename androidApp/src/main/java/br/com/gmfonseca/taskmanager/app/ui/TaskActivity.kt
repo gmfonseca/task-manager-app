@@ -8,8 +8,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.com.gmfonseca.taskmanager.app.contracts.StartCameraForResult
-import br.com.gmfonseca.taskmanager.app.ui.screens.taskdetails.TaskDetailsScreen
-import br.com.gmfonseca.taskmanager.app.ui.screens.tasklist.TasksListScreen
+import br.com.gmfonseca.taskmanager.app.ui.screens.task.create.CreateTaskFormScreen
+import br.com.gmfonseca.taskmanager.app.ui.screens.task.details.TaskDetailsScreen
+import br.com.gmfonseca.taskmanager.app.ui.screens.task.list.TasksListScreen
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.ByteArrayOutputStream
 
@@ -38,6 +39,9 @@ class TaskActivity : ComponentActivity() {
                                 taskViewModel.completingTask = it
                                 startCameraForResult.launch(Unit)
                             }
+                        },
+                        onFabClicked = {
+                            navController.navigate(NAV_CREATE_TASK)
                         }
                     )
                 }
@@ -45,6 +49,12 @@ class TaskActivity : ComponentActivity() {
                 composable(NAV_TASK_DETAILS) {
                     TaskDetailsScreen(
                         taskViewModel = taskViewModel,
+                        onBackPress = navController::popBackStack
+                    )
+                }
+
+                composable(NAV_CREATE_TASK) {
+                    CreateTaskFormScreen(
                         onBackPress = navController::popBackStack
                     )
                 }
@@ -67,5 +77,6 @@ class TaskActivity : ComponentActivity() {
     private companion object {
         const val NAV_TASKS_LIST = "tasklist"
         const val NAV_TASK_DETAILS = "taskdetails"
+        const val NAV_CREATE_TASK = "createtask"
     }
 }

@@ -3,7 +3,7 @@ package br.com.gmfonseca.taskmanager.app.ui
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.gmfonseca.taskmanager.app.ui.screens.tasklist.model.FilterOption
+import br.com.gmfonseca.taskmanager.app.ui.screens.task.list.model.FilterOption
 import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 import br.com.gmfonseca.taskmanager.shared.domain.usecases.CompleteTaskUseCase
 import br.com.gmfonseca.taskmanager.shared.domain.usecases.CompleteTaskUseCaseImpl
