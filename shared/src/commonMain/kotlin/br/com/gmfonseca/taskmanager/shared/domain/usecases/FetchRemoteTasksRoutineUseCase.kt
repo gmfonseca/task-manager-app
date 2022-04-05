@@ -15,7 +15,7 @@ class FetchRemoteTasksRoutineUseCaseImpl : FetchRemoteTasksRoutineUseCase {
 
     override fun invoke(params: None): WatchableFlow<Result<List<Task>>> = watchableFlow {
         while (true) {
-            val result: Result<List<Task>> = try {
+            val result = try {
                 Result.success(taskRepository.fetchTasks())
             } catch (other: Throwable) {
                 Result.failure(other)

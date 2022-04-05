@@ -1,6 +1,5 @@
 package br.com.gmfonseca.taskmanager.app.ui.screens.taskdetails.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.FloatingActionButton
@@ -18,7 +17,7 @@ import br.com.gmfonseca.taskmanager.R
 import br.com.gmfonseca.taskmanager.app.core.design.Color
 import br.com.gmfonseca.taskmanager.shared.common.Constants
 import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
 
 @Composable
 fun TaskDetailsImage(task: Task, onBackPress: () -> Unit) {
@@ -32,14 +31,11 @@ fun TaskDetailsImage(task: Task, onBackPress: () -> Unit) {
                 alpha = .2f
             )
     ) {
-        Image(
-            modifier = Modifier.fillMaxSize(),
-            painter = rememberAsyncImagePainter(
-                "${Constants.SERVICE_URL}/tasks/${task.id}/image",
-                error = painterResource(id = R.drawable.ic_close)
-
-            ),
+        AsyncImage(
+            model = "${Constants.SERVICE_URL}/tasks/${task.id}/image",
             contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            error = painterResource(id = R.drawable.ic_close),
         )
 
         FloatingActionButton(

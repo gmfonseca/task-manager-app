@@ -2,7 +2,6 @@ package br.com.gmfonseca.taskmanager.app.ui
 
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
@@ -27,13 +26,13 @@ class TaskActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
-            NavHost(navController = navController, startDestination = "tasklist") {
-                composable("tasklist") {
+            NavHost(navController = navController, startDestination = NAV_TASKS_LIST) {
+                composable(NAV_TASKS_LIST) {
                     TasksListScreen(
                         taskViewModel,
                         onTaskCardClick = {
                             if (it.isCompleted) {
-                                navController.navigate("taskdetails")
+                                navController.navigate(NAV_TASK_DETAILS)
                                 taskViewModel.selectTask(it)
                             } else {
                                 taskViewModel.completingTask = it
@@ -43,7 +42,7 @@ class TaskActivity : ComponentActivity() {
                     )
                 }
 
-                composable("taskdetails") {
+                composable(NAV_TASK_DETAILS) {
                     TaskDetailsScreen(
                         taskViewModel = taskViewModel,
                         onBackPress = navController::popBackStack
@@ -63,5 +62,10 @@ class TaskActivity : ComponentActivity() {
         val bytes = stream.toByteArray().also { bitmap.recycle() }
 
         taskViewModel.completeTask(bytes, applicationContext)
+    }
+
+    private companion object {
+        const val NAV_TASKS_LIST = "tasklist"
+        const val NAV_TASK_DETAILS = "taskdetails"
     }
 }
