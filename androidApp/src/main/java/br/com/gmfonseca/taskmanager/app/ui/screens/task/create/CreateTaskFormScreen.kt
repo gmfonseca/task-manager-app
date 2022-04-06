@@ -1,5 +1,6 @@
 package br.com.gmfonseca.taskmanager.app.ui.screens.task.create
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,6 +15,8 @@ import br.com.gmfonseca.taskmanager.app.core.design.Color
 import br.com.gmfonseca.taskmanager.app.ui.TaskViewModel
 import br.com.gmfonseca.taskmanager.app.ui.TaskViewModelStub
 import br.com.gmfonseca.taskmanager.app.ui.components.ConfirmButton
+import br.com.gmfonseca.taskmanager.app.ui.components.feedback.SnackbarNotification
+import br.com.gmfonseca.taskmanager.app.ui.components.feedback.SnackbarNotificationData
 import br.com.gmfonseca.taskmanager.app.ui.components.input.LabeledTextField
 import br.com.gmfonseca.taskmanager.app.ui.screens.task.create.components.CreateTaskFormHeader
 
@@ -25,15 +28,26 @@ fun CreateTaskFormScreen(
 ) {
     val formState by taskViewModel.formState.collectAsState()
 
+    BackHandler(true, onBackPress)
+
     Scaffold(
         backgroundColor = Color.Gray1,
         topBar = { CreateTaskFormHeader(onBackPress) },
         bottomBar = {
-            ConfirmButton(
-                onClick = onCreatePress,
-                text = "CREATE TASK",
-                enabled = formState.isCompleted
-            )
+            Column {
+                if (formState.failed) {
+                    SnackbarNotification(
+                        data = SnackbarNotificationData.Failure("Failed to create the task"),
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                }
+
+                ConfirmButton(
+                    onClick = onCreatePress,
+                    text = "CREATE TASK",
+                    enabled = formState.isCompleted
+                )
+            }
         }
     ) {
         Column(

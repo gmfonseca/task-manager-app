@@ -20,7 +20,7 @@ fun ConfirmButton(onClick: () -> Unit, text: String, enabled: Boolean = true) {
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color.Yellow2,
-            disabledBackgroundColor = Color.Yellow2,
+            disabledBackgroundColor = Color.Yellow3,
         ),
         enabled = enabled,
         modifier = Modifier

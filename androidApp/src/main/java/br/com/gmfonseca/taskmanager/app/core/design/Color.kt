@@ -18,4 +18,7 @@ object Color {
 
     val TextGray1 = Color(0xFFEDEDED)
     val TextGray2 = Color(0xFF232323)
+
+    val Red = Color(0xFFEB5757)
+    val Green = Color(0xFF219653)
 }

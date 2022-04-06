@@ -58,7 +58,10 @@ class TaskActivity : ComponentActivity() {
                 composable(NAV_CREATE_TASK) {
                     CreateTaskFormScreen(
                         taskViewModel,
-                        onBackPress = navController::popBackStack,
+                        onBackPress = {
+                            taskViewModel.clearFormState()
+                            navController.popBackStack()
+                        },
                         onCreatePress = {
                             navController.navigate(NAV_CREATING_TASK)
                             taskViewModel.createTask(
@@ -75,7 +78,6 @@ class TaskActivity : ComponentActivity() {
                 }
 
                 composable(NAV_CREATING_TASK) {
-                    BackHandler(false) {}
                     CreatingTaskScreen()
                 }
             }

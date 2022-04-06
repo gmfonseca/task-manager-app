@@ -1,6 +1,7 @@
 package br.com.gmfonseca.taskmanager.app.ui.components.input
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.OutlinedTextField
@@ -27,7 +28,10 @@ fun LabeledTextField(
     val (isError, setIsError) = remember { mutableStateOf(false) }
 
     Column(modifier) {
-        Text(text = label, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+        Row {
+            Text(text = label, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+            if (isRequired) Text(text = "*", fontWeight = FontWeight.Bold, color = Color.Red)
+        }
 
         OutlinedTextField(
             value = value,
@@ -40,8 +44,10 @@ fun LabeledTextField(
                 focusedBorderColor = Color.Yellow2,
                 cursorColor = Color.Yellow2,
             ),
-
-            )
+            placeholder = {
+                Text(text = "Type here...")
+            }
+        )
     }
 }
 

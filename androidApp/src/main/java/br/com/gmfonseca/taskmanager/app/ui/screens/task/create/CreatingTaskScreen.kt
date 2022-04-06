@@ -1,5 +1,6 @@
 package br.com.gmfonseca.taskmanager.app.ui.screens.task.create
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
@@ -14,6 +15,8 @@ import br.com.gmfonseca.taskmanager.app.core.design.Color
 
 @Composable
 fun CreatingTaskScreen() {
+    BackHandler(true) {}
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -25,7 +28,7 @@ fun CreatingTaskScreen() {
             color = Color.Yellow2,
             modifier = Modifier
                 .size(108.dp)
-                .padding(bottom = 16.dp),
+                .padding(bottom = 32.dp),
         )
         Text(text = "Creating task...", fontSize = 20.sp, color = Color.TextGray2)
     }
