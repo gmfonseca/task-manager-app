@@ -1,5 +1,6 @@
 package br.com.gmfonseca.taskmanager.app.ui.screens.task.list.components.fab
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,7 +23,7 @@ fun CreateTaskFloatActionButton(onClick: () -> Unit, hasTasks: Boolean) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(16.dp)) {
             Icon(Icons.Filled.Add, contentDescription = "Add", modifier = Modifier.size(24.dp))
 
-            if (!hasTasks) {
+            AnimatedVisibility(visible = !hasTasks) {
                 Text(text = "CREATE", fontSize = 16.sp, modifier = Modifier.padding(start = 4.dp))
             }
         }

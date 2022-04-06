@@ -1,14 +1,14 @@
 package br.com.gmfonseca.taskmanager.app.ui.screens.task.list.components.tasksfilter
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
@@ -36,13 +36,14 @@ fun FilterOption(
         defaultElevation,
         buttonModifier
     ) = style(isSelected, shape)
+    val backgroundColorAnimated by animateColorAsState(targetValue = backgroundColor)
 
     Button(
         onClick = { if (!isSelected) onClick(option) },
         modifier = buttonModifier.then(modifier),
         elevation = ButtonDefaults.elevation(defaultElevation, defaultElevation + 8.dp),
         shape = shape,
-        colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
+        colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorAnimated)
     ) {
         Text(
             text = option.name.uppercase(),
