@@ -93,7 +93,7 @@ class TaskViewModelImpl : TaskViewModel() {
 
     override fun updateForm(title: String, description: String) {
         _formState.value = formState.value.copy(
-            title = title, description = description, failed = false
+            title = title, description = description
         )
     }
 
@@ -104,11 +104,11 @@ class TaskViewModelImpl : TaskViewModel() {
             .watch { result ->
                 viewModelScope.launch {
                     if (result.isSuccess && result.get()) {
-                        onSuccess
+                        onSuccess()
                     } else {
-                        _formState.emit(formState.value.copy(failed = true))
-                        onError
-                    }()
+                        _formState.emit(formState.value.copy(hasError = true))
+                        onError()
+                    }
                 }
             }
     }
@@ -180,7 +180,7 @@ data class TasksUiState(
 data class TaskFormState(
     val title: String = "",
     val description: String = "",
-    val failed: Boolean = false
+    val hasError: Boolean = false
 ) {
     val isCompleted get() = title.isNotBlank() && description.isNotBlank()
 }

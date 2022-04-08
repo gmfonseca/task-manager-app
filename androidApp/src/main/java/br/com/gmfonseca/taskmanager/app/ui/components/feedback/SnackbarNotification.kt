@@ -1,11 +1,9 @@
 package br.com.gmfonseca.taskmanager.app.ui.components.feedback
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
-import androidx.compose.material.Snackbar
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
@@ -25,23 +23,28 @@ fun SnackbarNotification(
     data: SnackbarNotificationData,
     modifier: Modifier = Modifier
 ) {
-    Snackbar(
-        shape = RoundedCornerShape(24.dp),
-        backgroundColor = data.color,
+    Row(
         modifier = Modifier
+            .padding(horizontal = 16.dp)
             .heightIn(max = 32.dp)
-            .then(modifier)
+            .background(data.color, shape = RoundedCornerShape(24.dp))
+            .fillMaxWidth()
+            .padding(8.dp)
+            .then(modifier),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(data.icon, contentDescription = data.contentDescription)
-            Text(
-                text = data.text,
-                fontSize = 12.sp,
-                modifier = Modifier.padding(horizontal = 8.dp)
-            )
-        }
+        Icon(
+            data.icon,
+            contentDescription = data.contentDescription,
+            tint = data.contentColor,
+            modifier = Modifier.size(16.dp)
+        )
+        Text(
+            text = data.text,
+            color = data.contentColor,
+            fontSize = 12.sp,
+            modifier = Modifier.padding(horizontal = 8.dp),
+        )
     }
 }
 
@@ -64,12 +67,19 @@ private fun SnackbarNotificationSuccessPreview() {
 sealed class SnackbarNotificationData(
     val text: String,
     val color: AndroidColor,
+    val contentColor: AndroidColor,
     val icon: ImageVector,
     val contentDescription: String? = null,
 ) {
     class Success(text: String) :
-        SnackbarNotificationData(text, Color.Green, Icons.Default.CheckCircle, "Succeed")
+        SnackbarNotificationData(
+            text,
+            Color.Green,
+            Color.White,
+            Icons.Default.CheckCircle,
+            "Succeed"
+        )
 
     class Failure(text: String) :
-        SnackbarNotificationData(text, Color.Red, Icons.Default.Error, "Failed")
+        SnackbarNotificationData(text, Color.Red, Color.White, Icons.Default.Error, "Failed")
 }

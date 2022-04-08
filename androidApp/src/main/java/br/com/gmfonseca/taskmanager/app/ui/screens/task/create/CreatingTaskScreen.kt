@@ -26,11 +26,13 @@ fun CreatingTaskScreen() {
     ) {
         CircularProgressIndicator(
             color = Color.Yellow2,
-            modifier = Modifier
-                .size(108.dp)
-                .padding(bottom = 32.dp),
+            modifier = Modifier.size(108.dp)
         )
-        Text(text = "Creating task...", fontSize = 20.sp, color = Color.TextGray2)
+        Text(
+            text = "Creating task...", fontSize = 20.sp, color = Color.TextGray2,
+            modifier =
+            Modifier.padding(top = 16.dp),
+        )
     }
 }
 

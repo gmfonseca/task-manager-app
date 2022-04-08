@@ -5,9 +5,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarHost
-import androidx.compose.material.SnackbarHostState
-import androidx.compose.runtime.*
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,49 +23,41 @@ import br.com.gmfonseca.taskmanager.app.ui.components.feedback.SnackbarNotificat
 import br.com.gmfonseca.taskmanager.app.ui.components.feedback.SnackbarNotificationData
 import br.com.gmfonseca.taskmanager.app.ui.components.input.LabeledTextField
 import br.com.gmfonseca.taskmanager.app.ui.screens.task.create.components.CreateTaskFormHeader
-import kotlinx.coroutines.launch
 
 @Composable
 fun CreateTaskFormScreen(
     taskViewModel: TaskViewModel,
     onBackPress: () -> Unit,
     onCreatePress: () -> Unit,
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
 ) {
     val formState by taskViewModel.formState.collectAsState()
-    val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { SnackbarHostState() }
-    val (alreadyShown, setAlreadyShown) = remember { mutableStateOf(false) }
-
-    // TODO: change the way we show the snackbar
-    if (formState.failed && !alreadyShown) {
-        scope.launch {
-            setAlreadyShown(true)
-            snackbarHostState.showSnackbar("")
-        }
-    }
 
     BackHandler(true, onBackPress)
+
+    if (formState.hasError) {
+        LaunchedEffect(scaffoldState) {
+            scaffoldState.snackbarHostState.showSnackbar("Failed to create the task")
+        }
+    }
 
     Scaffold(
         backgroundColor = Color.Gray1,
         topBar = { CreateTaskFormHeader(onBackPress) },
         snackbarHost = {
-            SnackbarHost(snackbarHostState) {
+            SnackbarHost(scaffoldState.snackbarHostState) {
                 SnackbarNotification(
-                    data = SnackbarNotificationData.Failure("Failed to create the task"),
+                    data = SnackbarNotificationData.Failure(it.message),
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
         },
         bottomBar = {
-            Column {
-
-                ConfirmButton(
-                    onClick = onCreatePress,
-                    text = "CREATE TASK",
-                    enabled = formState.isCompleted
-                )
-            }
+            ConfirmButton(
+                onClick = onCreatePress,
+                text = "CREATE TASK",
+                enabled = formState.isCompleted
+            )
         }
     ) {
         Column(
