@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.gmfonseca.taskmanager.app.ui.screens.task.list.model.FilterOption
+import br.com.gmfonseca.taskmanager.app.ui.screens.task.list.model.Status
 import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 import br.com.gmfonseca.taskmanager.shared.domain.usecases.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +20,7 @@ abstract class TaskViewModel : ViewModel() {
     abstract fun completeTask(fileBytes: ByteArray, context: Context)
     abstract fun changeFilter(newOption: FilterOption)
     abstract fun selectTask(task: Task?, showDialog: Boolean = false)
-    abstract fun createTask(onSuccess: () -> Unit, onError: () -> Unit)
+    abstract fun createTask(onSuccess: (Status, String) -> Unit, onError: () -> Unit)
     abstract fun clearFormState()
 
     abstract fun updateForm(
@@ -97,7 +98,7 @@ class TaskViewModelImpl : TaskViewModel() {
         )
     }
 
-    override fun createTask(onSuccess: () -> Unit, onError: () -> Unit) {
+    override fun createTask(onSuccess: (Status, String) -> Unit, onError: () -> Unit) {
         val (title, description) = formState.value
 
         _formState.value = formState.value.copy(hasError = false)
@@ -105,8 +106,8 @@ class TaskViewModelImpl : TaskViewModel() {
         createTaskUseCase(CreateTaskUseCase.Params(title, description))
             .watch { result ->
                 viewModelScope.launch {
-                    if (result.isSuccess && result.get()) {
-                        onSuccess()
+                    if (result.isSuccess) {
+                        onSuccess(Status.SUCCEED_CREATE, result.get().id)
                     } else {
                         _formState.emit(formState.value.copy(hasError = true))
                         onError()
@@ -168,7 +169,7 @@ class TaskViewModelStub(
     override fun changeFilter(newOption: FilterOption) = Unit
     override fun selectTask(task: Task?, showDialog: Boolean) = Unit
     override fun updateForm(title: String, description: String) = Unit
-    override fun createTask(onSuccess: () -> Unit, onError: () -> Unit) = Unit
+    override fun createTask(onSuccess: (Status, String) -> Unit, onError: () -> Unit) = Unit
     override fun clearFormState() = Unit
 }
 
