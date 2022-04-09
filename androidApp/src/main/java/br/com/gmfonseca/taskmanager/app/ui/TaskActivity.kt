@@ -7,14 +7,11 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import br.com.gmfonseca.taskmanager.app.contracts.StartCameraForResult
-import br.com.gmfonseca.taskmanager.app.ui.components.feedback.SnackbarNotificationData
 import br.com.gmfonseca.taskmanager.app.ui.screens.task.create.CreateTaskFormScreen
 import br.com.gmfonseca.taskmanager.app.ui.screens.task.create.CreatingTaskScreen
 import br.com.gmfonseca.taskmanager.app.ui.screens.task.details.TaskDetailsScreen
 import br.com.gmfonseca.taskmanager.app.ui.screens.task.list.TasksListScreen
-import br.com.gmfonseca.taskmanager.app.ui.screens.task.list.model.Status
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.ByteArrayOutputStream
 
@@ -31,17 +28,8 @@ class TaskActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
-            NavHost(
-                navController = navController,
-                startDestination = "$NAV_TASKS_LIST?status={status}&taskId={taskId}"
-            ) {
-                composable(
-                    route = "$NAV_TASKS_LIST?status={status}&taskId={taskId}",
-                    arguments = listOf(
-                        navArgument(name = "status") { nullable = true; defaultValue = null },
-                        navArgument(name = "taskId") { nullable = true; defaultValue = null },
-                    )
-                ) { backStackEntry ->
+            NavHost(navController = navController, startDestination = NAV_TASKS_LIST) {
+                composable(route = NAV_TASKS_LIST) {
                     TasksListScreen(
                         taskViewModel,
                         onTaskCardClick = {
@@ -53,19 +41,8 @@ class TaskActivity : ComponentActivity() {
                                 startCameraForResult.launch(Unit)
                             }
                         },
-                        onFabClicked = {
+                        onFabClick = {
                             navController.navigate(NAV_CREATE_TASK)
-                        },
-                        snackbarData = backStackEntry.arguments?.run {
-                            val status = Status.valueOf(getString("status", Status.NONE.name))
-                            val taskId = getString("taskId", "?")
-
-                            when (status) {
-                                Status.SUCCEED_COMPLETE -> SnackbarNotificationData.Success("Successfully completed the task #$taskId")
-                                Status.ERROR_COMPLETE -> SnackbarNotificationData.Failure("Failed to complete the task #$taskId")
-                                Status.SUCCEED_CREATE -> SnackbarNotificationData.Success("Successfully created the task #$taskId")
-                                Status.NONE -> null
-                            }
                         }
                     )
                 }
@@ -88,9 +65,9 @@ class TaskActivity : ComponentActivity() {
                             navController.navigate(NAV_CREATING_TASK)
                             taskViewModel.createTask(
                                 onError = navController::popBackStack,
-                                onSuccess = { status, taskId ->
+                                onSuccess = {
                                     taskViewModel.clearFormState()
-                                    navController.navigate("$NAV_TASKS_LIST?status=${status}&taskId=${taskId}") {
+                                    navController.navigate(NAV_TASKS_LIST) {
                                         popUpTo(0)
                                     }
                                 }

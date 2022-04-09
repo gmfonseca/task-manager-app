@@ -3,8 +3,8 @@ package br.com.gmfonseca.taskmanager.app.ui
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.gmfonseca.taskmanager.app.ui.components.feedback.SnackbarNotificationData
 import br.com.gmfonseca.taskmanager.app.ui.screens.task.list.model.FilterOption
-import br.com.gmfonseca.taskmanager.app.ui.screens.task.list.model.Status
 import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 import br.com.gmfonseca.taskmanager.shared.domain.usecases.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,8 +20,9 @@ abstract class TaskViewModel : ViewModel() {
     abstract fun completeTask(fileBytes: ByteArray, context: Context)
     abstract fun changeFilter(newOption: FilterOption)
     abstract fun selectTask(task: Task?, showDialog: Boolean = false)
-    abstract fun createTask(onSuccess: (Status, String) -> Unit, onError: () -> Unit)
+    abstract fun createTask(onSuccess: () -> Unit, onError: () -> Unit)
     abstract fun clearFormState()
+    abstract fun clearListSnackbarState()
 
     abstract fun updateForm(
         title: String = formState.value.title,
@@ -60,18 +61,38 @@ class TaskViewModelImpl : TaskViewModel() {
     }
 
     override fun completeTask(fileBytes: ByteArray, context: Context) {
-        val taskId = completingTask?.id ?: return
+        val taskId = completingTask?.id
+            ?: return run {
+                _uiState.value = uiState.value.copy(
+                    snackbarData = SnackbarNotificationData.Failure(
+                        text = "Failed to complete an unknown task"
+                    )
+                )
+            }
 
-        completeTasksRoutine(
-            CompleteTaskUseCase.Params(taskId, fileBytes)
-        ).watch { result ->
-            if (result.isSuccess && result.get()) {
-                viewModelScope.launch {
+        completeTasksRoutine(CompleteTaskUseCase.Params(taskId, fileBytes))
+            .watch { result ->
+                val newUiState = if (result.isSuccess && result.get()) {
                     _allTasks.removeIf { it.id == taskId }
-                    _uiState.emit(uiState.value.copy(tasks = filteredTasksByState()))
+
+                    uiState.value.copy(
+                        tasks = filteredTasksByState(),
+                        snackbarData = SnackbarNotificationData.Success(
+                            text = "Successfully completed the task #$taskId"
+                        )
+                    )
+                } else {
+                    uiState.value.copy(
+                        snackbarData = SnackbarNotificationData.Failure(
+                            text = "Failed to complete the task #$taskId"
+                        )
+                    )
+                }
+
+                viewModelScope.launch {
+                    _uiState.emit(newUiState)
                 }
             }
-        }
     }
 
     override fun changeFilter(newOption: FilterOption) {
@@ -84,11 +105,12 @@ class TaskViewModelImpl : TaskViewModel() {
     }
 
     override fun selectTask(task: Task?, showDialog: Boolean) {
-        val curState = uiState.value
-        if (curState.currentTask != task || curState.isInfoDialogShown != showDialog) {
-            _uiState.value = uiState.value.copy(
-                currentTask = task, isInfoDialogShown = task != null && showDialog
-            )
+        uiState.value.run {
+            if (currentTask != task || isInfoDialogShown != showDialog) {
+                _uiState.value = copy(
+                    currentTask = task, isInfoDialogShown = task != null && showDialog
+                )
+            }
         }
     }
 
@@ -98,7 +120,7 @@ class TaskViewModelImpl : TaskViewModel() {
         )
     }
 
-    override fun createTask(onSuccess: (Status, String) -> Unit, onError: () -> Unit) {
+    override fun createTask(onSuccess: () -> Unit, onError: () -> Unit) {
         val (title, description) = formState.value
 
         _formState.value = formState.value.copy(hasError = false)
@@ -107,9 +129,18 @@ class TaskViewModelImpl : TaskViewModel() {
             .watch { result ->
                 viewModelScope.launch {
                     if (result.isSuccess) {
-                        onSuccess(Status.SUCCEED_CREATE, result.get().id)
+                        _uiState.emit(
+                            uiState.value.copy(
+                                snackbarData = SnackbarNotificationData.Success(
+                                    text = "Successfully created the task #${result.get().id}"
+                                )
+                            )
+                        )
+
+                        onSuccess()
                     } else {
                         _formState.emit(formState.value.copy(hasError = true))
+
                         onError()
                     }
                 }
@@ -118,6 +149,12 @@ class TaskViewModelImpl : TaskViewModel() {
 
     override fun clearFormState() {
         _formState.value = TaskFormState()
+    }
+
+    override fun clearListSnackbarState() {
+        if (uiState.value.snackbarData != null) {
+            _uiState.value = uiState.value.copy(snackbarData = null)
+        }
     }
 
     private fun filteredTasksByState() = filteredTasksBy(uiState.value.selectedFilterOption)
@@ -169,8 +206,9 @@ class TaskViewModelStub(
     override fun changeFilter(newOption: FilterOption) = Unit
     override fun selectTask(task: Task?, showDialog: Boolean) = Unit
     override fun updateForm(title: String, description: String) = Unit
-    override fun createTask(onSuccess: (Status, String) -> Unit, onError: () -> Unit) = Unit
+    override fun createTask(onSuccess: () -> Unit, onError: () -> Unit) = Unit
     override fun clearFormState() = Unit
+    override fun clearListSnackbarState() = Unit
 }
 
 data class TasksUiState(
@@ -178,6 +216,7 @@ data class TasksUiState(
     val selectedFilterOption: FilterOption = FilterOption.ALL,
     val currentTask: Task? = null,
     val isInfoDialogShown: Boolean = false,
+    val snackbarData: SnackbarNotificationData? = null
 )
 
 data class TaskFormState(
