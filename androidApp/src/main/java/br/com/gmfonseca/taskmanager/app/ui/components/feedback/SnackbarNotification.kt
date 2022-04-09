@@ -26,7 +26,7 @@ fun SnackbarNotification(
     Row(
         modifier = Modifier
             .padding(horizontal = 16.dp)
-            .heightIn(max = 32.dp)
+            .height(32.dp)
             .background(data.color, shape = RoundedCornerShape(24.dp))
             .fillMaxWidth()
             .padding(8.dp)

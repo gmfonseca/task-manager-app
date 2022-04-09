@@ -36,7 +36,7 @@ fun CreateTaskFormScreen(
     BackHandler(true, onBackPress)
 
     if (formState.hasError) {
-        LaunchedEffect(scaffoldState) {
+        LaunchedEffect(formState) {
             scaffoldState.snackbarHostState.showSnackbar("Failed to create the task")
         }
     }

@@ -100,6 +100,8 @@ class TaskViewModelImpl : TaskViewModel() {
     override fun createTask(onSuccess: () -> Unit, onError: () -> Unit) {
         val (title, description) = formState.value
 
+        _formState.value = formState.value.copy(hasError = false)
+
         createTaskUseCase(CreateTaskUseCase.Params(title, description))
             .watch { result ->
                 viewModelScope.launch {
