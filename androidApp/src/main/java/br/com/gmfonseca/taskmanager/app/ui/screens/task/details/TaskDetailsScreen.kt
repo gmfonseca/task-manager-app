@@ -22,13 +22,26 @@ import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 
 @Composable
 fun TaskDetailsScreen(taskViewModel: TaskViewModel, onBackPress: () -> Unit) {
-    val uiState by taskViewModel.uiState.collectAsState()
-    val task = uiState.currentTask ?: loadTaskError()
+    val listUiState by taskViewModel.listUiState.collectAsState()
+    val task = listUiState.currentTask ?: return run {
+        Toast.makeText(
+            LocalContext.current,
+            "Whoops! Something went wrong to open the task details.",
+            Toast.LENGTH_SHORT
+        ).show()
 
-    Scaffold {
+        onBackPress()
+    }
+
+    TaskDetailsScreenDetails(task = task, onBackPress = onBackPress)
+}
+
+@Composable
+private fun TaskDetailsScreenDetails(task: Task, onBackPress: () -> Unit) {
+    Scaffold(
+        topBar = { TaskDetailsImage(taskId = task.id, onBackPress = onBackPress) }
+    ) {
         Column {
-            TaskDetailsImage(taskId = task.id, onBackPress = onBackPress)
-
             Text(
                 text = task.title,
                 color = Color.TextGray2,
@@ -51,17 +64,6 @@ fun TaskDetailsScreen(taskViewModel: TaskViewModel, onBackPress: () -> Unit) {
             )
         }
     }
-}
-
-@Composable
-private fun loadTaskError(): Task = run {
-    Toast.makeText(
-        LocalContext.current,
-        "Whoops! Something went wrong to open the task details.",
-        Toast.LENGTH_SHORT
-    ).show()
-
-    Task("404", "Task not found!", "Whoops, something went wrong to load this task.")
 }
 
 @Preview

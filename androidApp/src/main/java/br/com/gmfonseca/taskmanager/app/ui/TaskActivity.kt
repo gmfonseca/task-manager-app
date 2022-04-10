@@ -58,7 +58,7 @@ class TaskActivity : ComponentActivity() {
                     CreateTaskFormScreen(
                         taskViewModel,
                         onBackPress = {
-                            taskViewModel.clearFormState()
+                            taskViewModel.clearFormUiState()
                             navController.popBackStack()
                         },
                         onCreatePress = {
@@ -66,10 +66,8 @@ class TaskActivity : ComponentActivity() {
                             taskViewModel.createTask(
                                 onError = navController::popBackStack,
                                 onSuccess = {
-                                    taskViewModel.clearFormState()
-                                    navController.navigate(NAV_TASKS_LIST) {
-                                        popUpTo(0)
-                                    }
+                                    taskViewModel.clearFormUiState()
+                                    navController.navigate(NAV_TASKS_LIST) { popUpTo(0) }
                                 }
                             )
                         }

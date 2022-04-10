@@ -15,7 +15,7 @@ import br.com.gmfonseca.taskmanager.app.core.design.Color
 
 @Composable
 fun CreatingTaskScreen() {
-    BackHandler(true) {}
+    BackHandler(onBack = {})
 
     Column(
         modifier = Modifier
@@ -28,10 +28,12 @@ fun CreatingTaskScreen() {
             color = Color.Yellow2,
             modifier = Modifier.size(108.dp)
         )
+
         Text(
-            text = "Creating task...", fontSize = 20.sp, color = Color.TextGray2,
-            modifier =
-            Modifier.padding(top = 16.dp),
+            text = "Creating task...",
+            fontSize = 20.sp,
+            color = Color.TextGray2,
+            modifier = Modifier.padding(top = 16.dp),
         )
     }
 }

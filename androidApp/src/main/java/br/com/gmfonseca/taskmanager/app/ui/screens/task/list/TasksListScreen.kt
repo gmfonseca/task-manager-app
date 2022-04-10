@@ -14,7 +14,7 @@ import androidx.lifecycle.LifecycleOwner
 import br.com.gmfonseca.taskmanager.app.core.design.Color
 import br.com.gmfonseca.taskmanager.app.ui.TaskViewModel
 import br.com.gmfonseca.taskmanager.app.ui.TaskViewModelStub
-import br.com.gmfonseca.taskmanager.app.ui.TasksUiState
+import br.com.gmfonseca.taskmanager.app.ui.TasksListUiState
 import br.com.gmfonseca.taskmanager.app.ui.components.feedback.SnackbarNotification
 import br.com.gmfonseca.taskmanager.app.ui.screens.task.list.components.TasksListHeader
 import br.com.gmfonseca.taskmanager.app.ui.screens.task.list.components.fab.CreateTaskFloatActionButton
@@ -31,11 +31,11 @@ fun TasksListScreen(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
-    val uiState by taskViewModel.uiState.collectAsState()
+    val listUiState by taskViewModel.listUiState.collectAsState()
 
-    uiState.snackbarData?.let {
-        LaunchedEffect(uiState.snackbarData) {
-            scaffoldState.snackbarHostState.showSnackbar("")
+    listUiState.snackbarData?.let {
+        LaunchedEffect(listUiState.snackbarData) {
+            scaffoldState.snackbarHostState.showSnackbar(it.text)
         }
     }
 
@@ -44,7 +44,7 @@ fun TasksListScreen(
     }
 
     TasksListScreenContent(
-        uiState = uiState,
+        listUiState = listUiState,
         scaffoldState = scaffoldState,
         onFabClick = onFabClick,
         onTaskCardClick = onTaskCardClick,
@@ -56,7 +56,7 @@ fun TasksListScreen(
 
 @Composable
 private fun TasksListScreenContent(
-    uiState: TasksUiState,
+    listUiState: TasksListUiState,
     scaffoldState: ScaffoldState,
     onFabClick: () -> Unit,
     onDialogDismiss: () -> Unit,
@@ -70,7 +70,7 @@ private fun TasksListScreenContent(
         topBar = {
             TasksListHeader(
                 title = "Tasks",
-                selectedFilterOption = uiState.selectedFilterOption,
+                selectedFilterOption = listUiState.selectedFilterOption,
                 onFilterChanged = changeFilter,
                 Modifier.padding(top = 16.dp)
             )
@@ -78,24 +78,24 @@ private fun TasksListScreenContent(
         floatingActionButton = {
             CreateTaskFloatActionButton(
                 onFabClick,
-                uiState.tasks.isNotEmpty()
+                listUiState.tasks.isNotEmpty()
             )
         },
         snackbarHost = {
             SnackbarHost(hostState = it, modifier = Modifier.padding(bottom = 8.dp)) {
-                uiState.snackbarData?.run { SnackbarNotification(data = this) }
+                listUiState.snackbarData?.run { SnackbarNotification(data = this) }
             }
         },
     ) {
         TasksList(
-            uiState.tasks,
-            uiState.selectedFilterOption,
+            listUiState.tasks,
+            listUiState.selectedFilterOption,
             onTaskCardClick = onTaskCardClick,
             onInfoClick = onInfoClick
         )
 
-        if (uiState.isInfoDialogShown) {
-            uiState.currentTask?.let {
+        if (listUiState.isInfoDialogShown) {
+            listUiState.currentTask?.let {
                 TaskDetailsDialog(it, onDismiss = onDialogDismiss)
             }
         }
