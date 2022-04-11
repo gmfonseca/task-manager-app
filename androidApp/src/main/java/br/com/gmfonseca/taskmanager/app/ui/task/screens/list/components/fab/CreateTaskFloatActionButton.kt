@@ -17,14 +17,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.gmfonseca.taskmanager.R
-import br.com.gmfonseca.taskmanager.app.core.design.Color
 
 @Composable
 fun CreateTaskFloatActionButton(
     onClick: () -> Unit,
     hasTasks: Boolean
 ) {
-    FloatingActionButton(onClick = onClick, backgroundColor = Color.Yellow2) {
+    FloatingActionButton(onClick = onClick) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(16.dp)) {
             Icon(Icons.Filled.Add, contentDescription = "Add", modifier = Modifier.size(24.dp))
 

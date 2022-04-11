@@ -3,6 +3,7 @@ package br.com.gmfonseca.taskmanager.app.ui.task.screens.details
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -16,7 +17,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.gmfonseca.taskmanager.R
-import br.com.gmfonseca.taskmanager.app.core.design.Color
 import br.com.gmfonseca.taskmanager.app.ui.task.screens.details.components.TaskDetailsImage
 import br.com.gmfonseca.taskmanager.app.ui.task.viewmodel.TaskViewModel
 import br.com.gmfonseca.taskmanager.app.ui.task.viewmodel.TaskViewModelStub
@@ -46,7 +46,7 @@ private fun TaskDetailsScreenDetails(task: Task, onBackPress: () -> Unit) {
         Column {
             Text(
                 text = task.title,
-                color = Color.TextGray2,
+                color = MaterialTheme.colors.onBackground,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
                 modifier = Modifier.padding(
@@ -59,7 +59,7 @@ private fun TaskDetailsScreenDetails(task: Task, onBackPress: () -> Unit) {
 
             Text(
                 text = task.description,
-                color = Color.TextGray2,
+                color = MaterialTheme.colors.onBackground,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
                 modifier = Modifier.padding(horizontal = 16.dp)

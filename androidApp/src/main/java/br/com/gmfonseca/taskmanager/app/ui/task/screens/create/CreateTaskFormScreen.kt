@@ -19,7 +19,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.gmfonseca.taskmanager.R
-import br.com.gmfonseca.taskmanager.app.core.design.Color
 import br.com.gmfonseca.taskmanager.app.ui.components.ConfirmButton
 import br.com.gmfonseca.taskmanager.app.ui.components.feedback.SnackbarNotification
 import br.com.gmfonseca.taskmanager.app.ui.components.feedback.SnackbarNotificationData
@@ -67,7 +66,6 @@ private fun CreateTaskFormScreenContent(
 ) {
     Scaffold(
         scaffoldState = scaffoldState,
-        backgroundColor = Color.Gray1,
         topBar = { CreateTaskFormHeader(onBackPress) },
         snackbarHost = { hostState ->
             SnackbarHost(hostState) {

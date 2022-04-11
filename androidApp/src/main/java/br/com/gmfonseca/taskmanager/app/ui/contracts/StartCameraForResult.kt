@@ -1,4 +1,4 @@
-package br.com.gmfonseca.taskmanager.app.contracts
+package br.com.gmfonseca.taskmanager.app.ui.contracts
 
 import android.content.Context
 import android.content.Intent

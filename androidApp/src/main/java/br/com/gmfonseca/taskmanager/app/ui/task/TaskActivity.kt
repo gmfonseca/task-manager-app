@@ -3,16 +3,16 @@ package br.com.gmfonseca.taskmanager.app.ui.task
 import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import br.com.gmfonseca.taskmanager.app.contracts.StartCameraForResult
+import br.com.gmfonseca.taskmanager.app.ui.contracts.StartCameraForResult
 import br.com.gmfonseca.taskmanager.app.ui.task.screens.create.CreateTaskFormScreen
 import br.com.gmfonseca.taskmanager.app.ui.task.screens.create.CreatingTaskScreen
 import br.com.gmfonseca.taskmanager.app.ui.task.screens.details.TaskDetailsScreen
 import br.com.gmfonseca.taskmanager.app.ui.task.screens.list.TasksListScreen
 import br.com.gmfonseca.taskmanager.app.ui.task.viewmodel.TaskViewModel
+import br.com.gmfonseca.taskmanager.app.ui.theme.setThemedContent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.ByteArrayOutputStream
 
@@ -26,7 +26,7 @@ class TaskActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContent {
+        setThemedContent {
             val navController = rememberNavController()
 
             NavHost(navController = navController, startDestination = NAV_TASKS_LIST) {

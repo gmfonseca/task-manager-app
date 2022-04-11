@@ -1,11 +1,9 @@
 package br.com.gmfonseca.taskmanager.app.ui.components.input
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,10 +14,9 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.gmfonseca.taskmanager.R
-import br.com.gmfonseca.taskmanager.app.core.design.Color
+import br.com.gmfonseca.taskmanager.app.ui.theme.Color
 
 @Composable
 fun LabeledTextField(
@@ -52,12 +49,6 @@ fun LabeledTextField(
         placeholder = { Text(text = stringResource(id = R.string.default_text_field_place_holder)) },
         singleLine = singleLine,
         keyboardOptions = keyboardOptions,
-        shape = RoundedCornerShape(8.dp),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Color.Yellow2,
-            cursorColor = Color.Yellow2,
-            focusedLabelColor = Color.Yellow3,
-        ),
         modifier = Modifier
             .fillMaxWidth()
             .then(modifier),

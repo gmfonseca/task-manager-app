@@ -6,7 +6,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -19,7 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import br.com.gmfonseca.taskmanager.app.core.design.Color
 import br.com.gmfonseca.taskmanager.app.ui.task.screens.list.model.FilterOption
 import androidx.compose.ui.graphics.Color as ComposeColor
 
@@ -77,24 +79,25 @@ private fun FilterOptionSelectedPreview() {
     )
 }
 
+@Composable
 private fun style(isSelected: Boolean, shape: Shape) = if (isSelected) {
-    val backgroundColor = Color.Yellow2
+    val backgroundColor = MaterialTheme.colors.secondary
 
     FilterOptionStyle(
         backgroundColor = backgroundColor,
-        foregroundColor = Color.TextGray2,
+        foregroundColor = MaterialTheme.colors.onSecondary,
         defaultElevation = 8.dp,
         buttonModifier = Modifier
             .background(backgroundColor, shape)
-            .border(BorderStroke(2.dp, Color.Gray3), shape)
+            .border(BorderStroke(2.dp, MaterialTheme.colors.primary), shape)
             .padding(2.dp),
     )
 } else {
-    val backgroundColor = Color.Gray3
+    val backgroundColor = MaterialTheme.colors.primary
 
     FilterOptionStyle(
         backgroundColor = backgroundColor,
-        foregroundColor = Color.TextGray1,
+        foregroundColor = MaterialTheme.colors.onPrimary,
         defaultElevation = 0.dp,
         buttonModifier = Modifier.background(backgroundColor, shape),
     )

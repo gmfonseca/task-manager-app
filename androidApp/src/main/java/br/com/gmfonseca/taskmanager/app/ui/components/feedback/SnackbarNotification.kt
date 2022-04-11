@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.gmfonseca.taskmanager.R
-import br.com.gmfonseca.taskmanager.app.core.design.Color
+import br.com.gmfonseca.taskmanager.app.ui.theme.Color
 import androidx.compose.ui.graphics.Color as AndroidColor
 
 @Composable

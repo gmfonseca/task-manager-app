@@ -13,7 +13,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
 import br.com.gmfonseca.taskmanager.R
-import br.com.gmfonseca.taskmanager.app.core.design.Color
 import br.com.gmfonseca.taskmanager.app.ui.task.viewmodel.TaskViewModel
 import br.com.gmfonseca.taskmanager.app.ui.task.viewmodel.TaskViewModelStub
 import br.com.gmfonseca.taskmanager.app.ui.task.model.TasksListUiState
@@ -68,7 +67,6 @@ private fun TasksListScreenContent(
 ) {
     Scaffold(
         scaffoldState = scaffoldState,
-        backgroundColor = Color.Gray1,
         topBar = {
             TasksListHeader(
                 title = stringResource(id = R.string.tasks_list_title),

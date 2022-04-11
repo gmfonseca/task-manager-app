@@ -4,10 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
@@ -18,7 +15,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import br.com.gmfonseca.taskmanager.app.core.design.Color
 import br.com.gmfonseca.taskmanager.app.ui.task.screens.list.model.FilterOption
 import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 import androidx.compose.ui.graphics.Color as ComposeColor
@@ -35,7 +31,7 @@ fun TaskCardHeader(task: Task, onInfoClick: () -> Unit, cardColor: ComposeColor)
             text = "#${task.id}", modifier = Modifier.weight(1f),
             fontWeight = FontWeight.Bold,
             fontSize = 12.sp,
-            color = Color.TextGray1,
+            color = MaterialTheme.colors.onPrimary,
         )
 
         Button(
@@ -54,13 +50,13 @@ fun TaskCardHeader(task: Task, onInfoClick: () -> Unit, cardColor: ComposeColor)
                 fontWeight = FontWeight.Bold,
                 fontSize = 12.sp,
                 modifier = Modifier.padding(end = 8.dp),
-                color = Color.TextGray1,
+                color = MaterialTheme.colors.onPrimary,
             )
             Icon(
                 Icons.Default.Info,
                 contentDescription = "More info",
                 modifier = Modifier.size(16.dp),
-                tint = Color.TextGray1,
+                tint = MaterialTheme.colors.onPrimary,
             )
         }
     }
@@ -76,6 +72,6 @@ private fun TaskCardHeaderPreview() {
             description = "This is a cool task description",
         ),
         onInfoClick = {},
-        cardColor = Color.Gray1
+        cardColor = MaterialTheme.colors.primary
     )
 }

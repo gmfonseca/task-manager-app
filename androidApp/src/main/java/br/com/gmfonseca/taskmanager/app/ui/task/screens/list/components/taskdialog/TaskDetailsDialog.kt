@@ -3,7 +3,7 @@ package br.com.gmfonseca.taskmanager.app.ui.task.screens.list.components.taskdia
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,7 +12,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import br.com.gmfonseca.taskmanager.app.core.design.Color
 import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 
 @Composable
@@ -26,7 +25,7 @@ fun TaskDetailsDialog(task: Task, onDismiss: () -> Unit) {
 private fun TaskDetailsDialogContent(task: Task, onDismiss: () -> Unit) {
     Column(
         Modifier
-            .background(Color.Gray1, shape = RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colors.surface, shape = MaterialTheme.shapes.medium)
             .padding(start = 16.dp, bottom = 16.dp, top = 8.dp, end = 8.dp),
     ) {
         TaskDetailsDialogHeader(onDismiss, task.id)
@@ -36,12 +35,14 @@ private fun TaskDetailsDialogContent(task: Task, onDismiss: () -> Unit) {
             modifier = Modifier.padding(end = 16.dp),
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
+            color = MaterialTheme.colors.onSurface,
         )
 
         Text(
             text = task.description,
             modifier = Modifier.padding(top = 4.dp),
             fontSize = 12.sp,
+            color = MaterialTheme.colors.onSurface,
         )
 
         TaskDetailsDialogFooter(task.isCompleted)

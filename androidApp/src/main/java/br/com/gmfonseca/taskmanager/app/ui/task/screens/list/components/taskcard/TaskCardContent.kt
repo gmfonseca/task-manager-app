@@ -3,6 +3,7 @@ package br.com.gmfonseca.taskmanager.app.ui.task.screens.list.components.taskcar
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -11,7 +12,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import br.com.gmfonseca.taskmanager.app.core.design.Color
 import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 
 @Composable
@@ -27,7 +27,7 @@ fun TaskCardContent(task: Task) {
             fontSize = 16.sp,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            color = Color.TextGray1,
+            color = MaterialTheme.colors.onPrimary,
             modifier = Modifier.padding(bottom = 4.dp)
         )
         Text(
@@ -35,7 +35,7 @@ fun TaskCardContent(task: Task) {
             fontSize = 12.sp,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
-            color = Color.TextGray1,
+            color = MaterialTheme.colors.onPrimary,
         )
     }
 }

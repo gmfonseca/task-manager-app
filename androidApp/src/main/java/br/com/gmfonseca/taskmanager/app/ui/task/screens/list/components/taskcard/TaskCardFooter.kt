@@ -12,7 +12,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.gmfonseca.taskmanager.R
-import br.com.gmfonseca.taskmanager.app.core.design.Color
 import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 import androidx.compose.ui.graphics.Color as ComposeColor
 
@@ -27,7 +26,7 @@ fun TaskCardFooter(task: Task, onClick: (Task) -> Unit, cardColor: ComposeColor,
     )
 
     Divider(
-        color = Color.Gray1,
+        color = MaterialTheme.colors.onPrimary,
         modifier = Modifier.padding(top = 8.dp)
     )
 
@@ -50,7 +49,7 @@ fun TaskCardFooter(task: Task, onClick: (Task) -> Unit, cardColor: ComposeColor,
     ) {
         Text(
             text = btnLabel,
-            color = Color.TextGray1,
+            color = MaterialTheme.colors.onPrimary,
             modifier = Modifier.weight(1f),
             fontSize = 14.sp,
             fontWeight = FontWeight.Normal
@@ -59,7 +58,7 @@ fun TaskCardFooter(task: Task, onClick: (Task) -> Unit, cardColor: ComposeColor,
             Icons.Default.KeyboardArrowRight,
             contentDescription = btnLabel,
             modifier = Modifier.size(16.dp),
-            tint = Color.TextGray1,
+            tint = MaterialTheme.colors.onPrimary,
         )
     }
 }
@@ -74,7 +73,7 @@ private fun TaskCardFooterPreview() {
             description = "This is a cool task description",
         ),
         onClick = {},
-        cardColor = Color.Gray4,
+        cardColor = MaterialTheme.colors.primary,
         enabled = false
     )
 }

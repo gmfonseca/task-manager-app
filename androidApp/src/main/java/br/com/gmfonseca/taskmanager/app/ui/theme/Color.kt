@@ -1,10 +1,10 @@
-package br.com.gmfonseca.taskmanager.app.core.design
+package br.com.gmfonseca.taskmanager.app.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
 object Color {
     val White get() = Color.White
-     val Transparent get() = Color.Transparent
+    val Transparent get() = Color.Transparent
 
     val Gray1 = Color(0xFFECF1F2)
     val Gray2 = Color(0xFFBABEBF)
@@ -20,5 +20,6 @@ object Color {
     val TextGray2 = Color(0xFF232323)
 
     val Red = Color(0xFFEB5757)
+    val DarkRed = Color(0xFFB00020)
     val Green = Color(0xFF219653)
 }
