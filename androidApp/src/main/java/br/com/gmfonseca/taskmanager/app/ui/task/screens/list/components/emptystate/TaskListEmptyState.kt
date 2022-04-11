@@ -3,10 +3,13 @@ package br.com.gmfonseca.taskmanager.app.ui.task.screens.list.components.emptyst
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.LibraryBooks
+import androidx.compose.material.icons.filled.PendingActions
+import androidx.compose.material.icons.filled.Task
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import br.com.gmfonseca.taskmanager.R
 import br.com.gmfonseca.taskmanager.app.ui.components.stateful.EmptyState
 import br.com.gmfonseca.taskmanager.app.ui.components.stateful.EmptyStateProperties
 import br.com.gmfonseca.taskmanager.app.ui.task.screens.list.model.FilterOption
@@ -47,31 +50,28 @@ private fun TaskListDoneEmptyStatePreview() {
 }
 
 private val AllEmptyListProperties by lazy {
-    object : EmptyStateProperties {
-        override val icon = Icons.Filled.LibraryBooks
-        override val iconDescription = "library books"
-        override val title = "No tasks available!"
-        override val description =
-            "Create a new task and\norganize your life in the pocket by\nusing the button below."
-    }
+    EmptyStateProperties(
+        icon = Icons.Filled.LibraryBooks,
+        iconDescription = "library books",
+        title = R.string.tasks_list_empty_state_section_all_title,
+        description = R.string.tasks_list_empty_state_section_all_description
+    )
 }
 
 private val PendingEmptyListProperties by lazy {
-    object : EmptyStateProperties {
-        override val icon = Icons.Filled.PendingActions
-        override val iconDescription = "pending actions"
-        override val title = "No pending tasks!"
-        override val description =
-            "Change the filter or\ncreate a new task by using\nthe button below."
-    }
+    EmptyStateProperties(
+        icon = Icons.Filled.PendingActions,
+        iconDescription = "pending actions",
+        title = R.string.tasks_list_empty_state_section_pending_title,
+        description = R.string.tasks_list_empty_state_section_pending_description,
+    )
 }
 
 private val DoneEmptyListProperties by lazy {
-    object : EmptyStateProperties {
-        override val icon = Icons.Filled.Task
-        override val iconDescription = "completed task"
-        override val title = "No done tasks!"
-        override val description =
-            "Change the filter and\ncomplete a pending task.\n"
-    }
+    EmptyStateProperties(
+        icon = Icons.Filled.Task,
+        iconDescription = "task",
+        title = R.string.tasks_list_empty_state_section_done_title,
+        description = R.string.tasks_list_empty_state_section_done_description,
+    )
 }

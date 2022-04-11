@@ -1,5 +1,6 @@
 package br.com.gmfonseca.taskmanager.app.ui.components.feedback
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,9 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.com.gmfonseca.taskmanager.R
 import br.com.gmfonseca.taskmanager.app.core.design.Color
 import androidx.compose.ui.graphics.Color as AndroidColor
 
@@ -40,7 +43,7 @@ fun SnackbarNotification(
             modifier = Modifier.size(16.dp)
         )
         Text(
-            text = data.text,
+            text = stringResource(id = data.textRes, *data.textResArgs),
             color = data.contentColor,
             fontSize = 12.sp,
             modifier = Modifier.padding(horizontal = 8.dp),
@@ -52,7 +55,7 @@ fun SnackbarNotification(
 @Composable
 private fun SnackbarNotificationFailurePreview() {
     SnackbarNotification(
-        SnackbarNotificationData.Failure(text = "Failed to complete the task #1")
+        SnackbarNotificationData.Failure(textRes = R.string.tasks_list_snackbar_complete_task_failed)
     )
 }
 
@@ -60,26 +63,33 @@ private fun SnackbarNotificationFailurePreview() {
 @Composable
 private fun SnackbarNotificationSuccessPreview() {
     SnackbarNotification(
-        SnackbarNotificationData.Success(text = "Failed to complete the task #1")
+        SnackbarNotificationData.Success(textRes = R.string.tasks_list_snackbar_complete_task_succeed)
     )
 }
 
 sealed class SnackbarNotificationData(
-    val text: String,
+    @StringRes val textRes: Int,
     val color: AndroidColor,
     val contentColor: AndroidColor,
     val icon: ImageVector,
     val contentDescription: String? = null,
+    val textResArgs: Array<out Any> = emptyArray(),
 ) {
-    class Success(text: String) :
-        SnackbarNotificationData(
-            text,
-            Color.Green,
-            Color.White,
-            Icons.Default.CheckCircle,
-            "Succeed"
-        )
+    class Success(textRes: Int, vararg textResArgs: Any) : SnackbarNotificationData(
+        textRes = textRes,
+        color = Color.Green,
+        contentColor = Color.White,
+        icon = Icons.Default.CheckCircle,
+        contentDescription = "Succeed",
+        textResArgs = textResArgs
+    )
 
-    class Failure(text: String) :
-        SnackbarNotificationData(text, Color.Red, Color.White, Icons.Default.Error, "Failed")
+    class Failure(textRes: Int, vararg textResArgs: Any) : SnackbarNotificationData(
+        textRes = textRes,
+        color = Color.Red,
+        contentColor = Color.White,
+        icon = Icons.Default.Error,
+        contentDescription = "Failed",
+        textResArgs = textResArgs
+    )
 }

@@ -8,9 +8,11 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
+import br.com.gmfonseca.taskmanager.R
 import br.com.gmfonseca.taskmanager.app.core.design.Color
 import br.com.gmfonseca.taskmanager.app.ui.task.viewmodel.TaskViewModel
 import br.com.gmfonseca.taskmanager.app.ui.task.viewmodel.TaskViewModelStub
@@ -35,7 +37,7 @@ fun TasksListScreen(
 
     listUiState.snackbarData?.let {
         LaunchedEffect(listUiState.snackbarData) {
-            scaffoldState.snackbarHostState.showSnackbar(it.text)
+            scaffoldState.snackbarHostState.showSnackbar("")
         }
     }
 
@@ -69,7 +71,7 @@ private fun TasksListScreenContent(
         backgroundColor = Color.Gray1,
         topBar = {
             TasksListHeader(
-                title = "Tasks",
+                title = stringResource(id = R.string.tasks_list_title),
                 selectedFilterOption = listUiState.selectedFilterOption,
                 onFilterChanged = changeFilter,
                 Modifier.padding(top = 16.dp)
@@ -77,8 +79,8 @@ private fun TasksListScreenContent(
         },
         floatingActionButton = {
             CreateTaskFloatActionButton(
-                onFabClick,
-                listUiState.tasks.isNotEmpty()
+                onClick = onFabClick,
+                hasTasks = listUiState.tasks.isNotEmpty(),
             )
         },
         snackbarHost = {

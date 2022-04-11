@@ -10,14 +10,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.com.gmfonseca.taskmanager.R
 import br.com.gmfonseca.taskmanager.app.core.design.Color
+import br.com.gmfonseca.taskmanager.app.ui.task.screens.details.components.TaskDetailsImage
 import br.com.gmfonseca.taskmanager.app.ui.task.viewmodel.TaskViewModel
 import br.com.gmfonseca.taskmanager.app.ui.task.viewmodel.TaskViewModelStub
-import br.com.gmfonseca.taskmanager.app.ui.task.screens.details.components.TaskDetailsImage
 import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 
 @Composable
@@ -26,7 +28,7 @@ fun TaskDetailsScreen(taskViewModel: TaskViewModel, onBackPress: () -> Unit) {
     val task = listUiState.currentTask ?: return run {
         Toast.makeText(
             LocalContext.current,
-            "Whoops! Something went wrong to open the task details.",
+            stringResource(id = R.string.task_details_error_opening_screen),
             Toast.LENGTH_SHORT
         ).show()
 

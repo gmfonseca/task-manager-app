@@ -1,7 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Tasks</string>
-    <string name="view_name">Pending</string>
-    <string name="complete_task_button">Complete</string>
-    <string name="task_list_empty_state">No pending tasks.</string>
+    <string name="app_name">Task Manager</string>
+    <string name="default_task_id">#%1$s</string>
+    <string name="default_text_field_required_symbol">*</string>
+    <string name="default_text_field_place_holder">Type here…</string>
+
+    <!-- region tasks list -->
+    <string name="tasks_list_title">Tasks</string>
+    <string name="tasks_list_filter_pending">Pending</string>
+    <string name="tasks_list_filter_all">All</string>
+    <string name="tasks_list_filter_done">Done</string>
+    <string name="tasks_list_fab_create">Create</string>
+    <string name="tasks_list_card_complete_label">Complete</string>
+    <string name="tasks_list_card_view_details_label">View details</string>
+    <string name="tasks_list_dialog_status">Status:</string>
+    <string name="tasks_list_snackbar_complete_task_succeed">Successfully completed the task #%1$s</string>
+    <string name="tasks_list_snackbar_complete_task_failed">Failed to complete the task #%1$s</string>
+    <string name="tasks_list_snackbar_complete_task_failed_unknown">Failed to complete an unknown task</string>
+    <string name="tasks_list_snackbar_create_task_succeed">Successfully created the task #%1$s</string>
+    <string name="tasks_list_empty_state_section_all_title">No tasks available!</string>
+    <string name="tasks_list_empty_state_section_all_description">Create a new task and\norganize your life in the pocket by\nusing the button below.</string>
+    <string name="tasks_list_empty_state_section_pending_title">No pending tasks!</string>
+    <string name="tasks_list_empty_state_section_pending_description">Change the filter or\ncreate a new task by using\nthe button below.</string>
+    <string name="tasks_list_empty_state_section_done_title">No done tasks!</string>
+    <string name="tasks_list_empty_state_section_done_description">Change the filter and\ncomplete a pending task.\n</string>
+    <!-- endregion -->
+
+    <!-- region create task -->
+    <string name="create_task_screen_title">Create task</string>
+    <string name="create_task_action_button">CREATE TASK</string>
+    <string name="create_task_text_field_title_label">TITLE</string>
+    <string name="create_task_text_field_description_label">DESCRIPTION</string>
+    <string name="create_task_snackbar_create_task_failed">Failed to create the task</string>
+    <!-- endregion -->
+
+    <!-- region task details -->
+    <string name="task_details_error_opening_screen">Whoops! Something went wrong to open the task details.</string>
+    <!-- endregion -->
+
+    <!-- region creating task -->
+    <string name="creating_task_loading_text">Creating task…</string>
+    <!-- endregion -->
 </resources>

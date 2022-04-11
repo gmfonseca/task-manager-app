@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,7 +47,7 @@ fun FilterOption(
         colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColorAnimated)
     ) {
         Text(
-            text = option.name.uppercase(),
+            text = stringResource(id = option.textRes).uppercase(),
             textAlign = TextAlign.Center,
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold.takeIf { isSelected },

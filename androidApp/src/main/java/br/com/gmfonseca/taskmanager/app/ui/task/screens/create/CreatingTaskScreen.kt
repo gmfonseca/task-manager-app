@@ -8,9 +8,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.com.gmfonseca.taskmanager.R
 import br.com.gmfonseca.taskmanager.app.core.design.Color
 
 @Composable
@@ -30,7 +32,7 @@ fun CreatingTaskScreen() {
         )
 
         Text(
-            text = "Creating task...",
+            text = stringResource(id = R.string.creating_task_loading_text),
             fontSize = 20.sp,
             color = Color.TextGray2,
             modifier = Modifier.padding(top = 16.dp),

@@ -14,18 +14,20 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.com.gmfonseca.taskmanager.R
 import br.com.gmfonseca.taskmanager.app.core.design.Color
-import br.com.gmfonseca.taskmanager.app.ui.task.model.TaskFormUiState
-import br.com.gmfonseca.taskmanager.app.ui.task.viewmodel.TaskViewModel
-import br.com.gmfonseca.taskmanager.app.ui.task.viewmodel.TaskViewModelStub
 import br.com.gmfonseca.taskmanager.app.ui.components.ConfirmButton
 import br.com.gmfonseca.taskmanager.app.ui.components.feedback.SnackbarNotification
 import br.com.gmfonseca.taskmanager.app.ui.components.feedback.SnackbarNotificationData
 import br.com.gmfonseca.taskmanager.app.ui.components.input.LabeledTextField
+import br.com.gmfonseca.taskmanager.app.ui.task.model.TaskFormUiState
 import br.com.gmfonseca.taskmanager.app.ui.task.screens.create.components.CreateTaskFormHeader
+import br.com.gmfonseca.taskmanager.app.ui.task.viewmodel.TaskViewModel
+import br.com.gmfonseca.taskmanager.app.ui.task.viewmodel.TaskViewModelStub
 
 @Composable
 fun CreateTaskFormScreen(
@@ -40,7 +42,7 @@ fun CreateTaskFormScreen(
 
     if (formUiState.hasError) {
         LaunchedEffect(formUiState) {
-            scaffoldState.snackbarHostState.showSnackbar("Failed to create the task")
+            scaffoldState.snackbarHostState.showSnackbar("")
         }
     }
 
@@ -70,7 +72,7 @@ private fun CreateTaskFormScreenContent(
         snackbarHost = { hostState ->
             SnackbarHost(hostState) {
                 SnackbarNotification(
-                    data = SnackbarNotificationData.Failure(it.message),
+                    data = SnackbarNotificationData.Failure(R.string.create_task_snackbar_create_task_failed),
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
@@ -78,7 +80,7 @@ private fun CreateTaskFormScreenContent(
         bottomBar = {
             ConfirmButton(
                 onClick = onCreatePress,
-                text = "CREATE TASK",
+                text = stringResource(id = R.string.create_task_action_button),
                 enabled = formUiState.isCompleted
             )
         }
@@ -89,7 +91,7 @@ private fun CreateTaskFormScreenContent(
                 .padding(horizontal = 16.dp)
         ) {
             LabeledTextField(
-                label = "TITLE",
+                label = stringResource(id = R.string.create_task_text_field_title_label),
                 value = formUiState.title,
                 onValueChange = onTitleChange,
                 modifier = Modifier.padding(top = 4.dp, bottom = 16.dp),
@@ -99,7 +101,7 @@ private fun CreateTaskFormScreenContent(
             )
 
             LabeledTextField(
-                label = "DESCRIPTION",
+                label = stringResource(id = R.string.create_task_text_field_description_label),
                 value = formUiState.description,
                 onValueChange = onDescriptionChange,
                 modifier = Modifier.padding(top = 4.dp),

@@ -2,6 +2,7 @@ package br.com.gmfonseca.taskmanager.app.ui.task.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
+import br.com.gmfonseca.taskmanager.R
 import br.com.gmfonseca.taskmanager.app.ui.components.feedback.SnackbarNotificationData
 import br.com.gmfonseca.taskmanager.app.ui.task.model.TaskFormUiState
 import br.com.gmfonseca.taskmanager.app.ui.task.model.TasksListUiState
@@ -51,7 +52,7 @@ class TaskViewModelImpl(
             ?: return run {
                 _listUiState.value = listUiState.value.copy(
                     snackbarData = SnackbarNotificationData.Failure(
-                        text = "Failed to complete an unknown task"
+                        textRes = R.string.tasks_list_snackbar_complete_task_failed_unknown
                     )
                 )
             }
@@ -65,13 +66,13 @@ class TaskViewModelImpl(
                         listUiState.value.copy(
                             tasks = filteredTasksByState(),
                             snackbarData = SnackbarNotificationData.Success(
-                                text = "Successfully completed the task #$taskId"
+                                textRes = R.string.tasks_list_snackbar_complete_task_succeed, taskId
                             )
                         )
                     } else {
                         listUiState.value.copy(
                             snackbarData = SnackbarNotificationData.Failure(
-                                text = "Failed to complete the task #$taskId"
+                                textRes = R.string.tasks_list_snackbar_complete_task_failed, taskId
                             )
                         )
                     }
@@ -117,7 +118,8 @@ class TaskViewModelImpl(
                     _listUiState.emit(
                         listUiState.value.copy(
                             snackbarData = SnackbarNotificationData.Success(
-                                text = "Successfully created the task #${result.get().id}"
+                                textRes = R.string.tasks_list_snackbar_create_task_succeed,
+                                result.get().id
                             )
                         )
                     )

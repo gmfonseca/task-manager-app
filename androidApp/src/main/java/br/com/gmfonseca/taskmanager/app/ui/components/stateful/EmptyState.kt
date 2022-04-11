@@ -1,5 +1,6 @@
 package br.com.gmfonseca.taskmanager.app.ui.components.stateful
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -9,11 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.com.gmfonseca.taskmanager.R
 
 @Composable
 fun EmptyState(properties: EmptyStateProperties) {
@@ -25,13 +28,13 @@ fun EmptyState(properties: EmptyStateProperties) {
     ) {
         Icon(properties.icon, contentDescription = properties.iconDescription, Modifier.size(64.dp))
         Text(
-            text = properties.title,
+            text = stringResource(id = properties.title),
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
             modifier = Modifier.padding(bottom = 8.dp)
         )
         Text(
-            text = properties.description,
+            text = stringResource(id = properties.description),
             fontWeight = FontWeight.Normal,
             fontSize = 16.sp,
             textAlign = TextAlign.Center
@@ -43,19 +46,18 @@ fun EmptyState(properties: EmptyStateProperties) {
 @Composable
 private fun EmptyStatePreview() {
     EmptyState(
-        object : EmptyStateProperties {
-            override val icon = Icons.Default.Done
-            override val iconDescription = "email"
-            override val title = "No tasks available!"
-            override val description =
-                "Create a new task and\norganize your life in the pocket by\nusing the button below."
-        }
+        EmptyStateProperties(
+            icon = Icons.Default.Done,
+            iconDescription = "email",
+            title = R.string.tasks_list_empty_state_section_all_title,
+            description = R.string.tasks_list_empty_state_section_all_description
+        )
     )
 }
 
-interface EmptyStateProperties {
-    val icon: ImageVector
-    val iconDescription: String
-    val title: String
-    val description: String
-}
+data class EmptyStateProperties(
+    val icon: ImageVector,
+    val iconDescription: String,
+    @StringRes val title: Int,
+    @StringRes val description: Int
+)

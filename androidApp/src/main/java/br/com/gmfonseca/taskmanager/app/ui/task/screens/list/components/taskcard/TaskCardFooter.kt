@@ -6,16 +6,26 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.com.gmfonseca.taskmanager.R
 import br.com.gmfonseca.taskmanager.app.core.design.Color
 import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 import androidx.compose.ui.graphics.Color as ComposeColor
 
 @Composable
 fun TaskCardFooter(task: Task, onClick: (Task) -> Unit, cardColor: ComposeColor, enabled: Boolean) {
+    val btnLabel = stringResource(
+        id = if (task.isCompleted) {
+            R.string.tasks_list_card_view_details_label
+        } else {
+            R.string.tasks_list_card_complete_label
+        }
+    )
+
     Divider(
         color = Color.Gray1,
         modifier = Modifier.padding(top = 8.dp)
@@ -39,7 +49,7 @@ fun TaskCardFooter(task: Task, onClick: (Task) -> Unit, cardColor: ComposeColor,
         enabled = enabled
     ) {
         Text(
-            text = if (task.isCompleted) "View details" else "Complete",
+            text = btnLabel,
             color = Color.TextGray1,
             modifier = Modifier.weight(1f),
             fontSize = 14.sp,
@@ -47,7 +57,7 @@ fun TaskCardFooter(task: Task, onClick: (Task) -> Unit, cardColor: ComposeColor,
         )
         Icon(
             Icons.Default.KeyboardArrowRight,
-            contentDescription = if (task.isCompleted) "View details" else "Complete",
+            contentDescription = btnLabel,
             modifier = Modifier.size(16.dp),
             tint = Color.TextGray1,
         )
