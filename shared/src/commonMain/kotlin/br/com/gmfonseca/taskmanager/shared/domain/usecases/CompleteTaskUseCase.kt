@@ -8,7 +8,7 @@ import br.com.gmfonseca.taskmanager.shared.domain.repositories.TaskRepository
 import kotlinx.coroutines.flow.Flow
 
 interface CompleteTaskUseCase :
-    UseCase<CompleteTaskUseCase.Params, Flow<Result<Boolean>>> {
+    UseCase<CompleteTaskUseCase.Params, WatchableFlow<Result<Boolean>>> {
 
     data class Params(val id: String, val fileBytes: ByteArray) : UseCase.Params
 }

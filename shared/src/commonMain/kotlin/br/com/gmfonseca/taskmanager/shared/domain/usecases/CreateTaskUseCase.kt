@@ -6,9 +6,8 @@ import br.com.gmfonseca.taskmanager.shared.common.ext.watchableFlow
 import br.com.gmfonseca.taskmanager.shared.data.repositories.TaskRepositoryImpl
 import br.com.gmfonseca.taskmanager.shared.domain.entities.Task
 import br.com.gmfonseca.taskmanager.shared.domain.repositories.TaskRepository
-import kotlinx.coroutines.flow.Flow
 
-interface CreateTaskUseCase : UseCase<CreateTaskUseCase.Params, Flow<Result<Task>>> {
+interface CreateTaskUseCase : UseCase<CreateTaskUseCase.Params, WatchableFlow<Result<Task>>> {
 
     data class Params(val title: String, val description: String) : UseCase.Params
 }
